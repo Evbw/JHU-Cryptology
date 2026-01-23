@@ -4,18 +4,21 @@ using namespace std;
 
 const string CIPHERTEXT = "XQFETMHQEAYQRGZIUFTODKBFAMFVTG";
 const int ALPHABET = 26;
+const int OFFSET = 32;
 
 int main(){
 
-    for ( int i = 0; i <= ALPHABET; i++ ) {
-        for ( int j = 0; j <= CIPHERTEXT.length(); j++ ) {
-            char c = CIPHERTEXT[j];
-            if ( c < 91 ) {
-                c = c + i;
+    char c = 0;
+
+    for ( int i = 1; i <= ALPHABET; i++ ) {
+        for ( int j = 0; j < CIPHERTEXT.length(); j++ ) {
+            c = CIPHERTEXT[j] + i;
+            if ( c > 90 ) {
+                c = c - ALPHABET;
                 cout<<c;
             }
             else
-                cout<<'A';
+                cout<<c;
         }
         cout<<endl;
     }
