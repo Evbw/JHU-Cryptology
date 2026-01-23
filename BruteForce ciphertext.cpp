@@ -15,10 +15,10 @@ int main(){
             c = CIPHERTEXT[j] + i;
             if ( c > 90 ) {
                 c = c - ALPHABET;
-                cout<<c;
+                cout<<(char)tolower(c);
             }
             else
-                cout<<c;
+                cout<<(char)tolower(c);
         }
         cout<<endl;
     }
