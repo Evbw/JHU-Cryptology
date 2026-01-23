@@ -1,10 +1,8 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
 const string CIPHERTEXT = "XQFETMHQEAYQRGZIUFTODKBFAMFVTG";
 const int ALPHABET = 26;
-const int OFFSET = 32;
 
 int main(){
 
