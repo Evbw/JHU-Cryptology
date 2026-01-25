@@ -52,12 +52,19 @@ double computeM_forColumnKey(string ct, int col, int i) {
 int bestKeyForColumn(string ct, int col) {
     int best = 0;
     double bestDiff = 100;
+    double M = 0.0;
+    double diff = 0.0;
     
     for ( int i = 0; i < ALPHABET; i++ ) {
-        double M = computeM_forColumnKey(ct, col, i) {
+        M = computeM_forColumnKey(ct, col, i) 
+        diff = (M > TARGETM_G) ? (M - TARGETM_G) : (TARGETM_G - M);
 
+        if ( diff < bestDiff ){
+            bestDiff = diff;
+            best = i;
         }
     }
+    return best;
 }
 
 int main() {
