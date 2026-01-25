@@ -78,9 +78,19 @@ int main() {
     string key;
 
     for ( int k = 0; k < KEYLENGTH; k++ ) {
-        key.push_back(char('A' + keyShift[k]))
-    };
+        key.push_back(char('A' + keyShift[k]));
+    }
+
+    cout<<CIPHERTEXT<<endl;
 
     cout<<"Key: "<<key<<endl;
 
+    string plaintext;
+    for ( int i = 0; i < CIPHERTEXT.size(); i++ ) {
+        int k = keyShift[i % KEYLENGTH];
+        plaintext.push_back(shiftUpper(CIPHERTEXT[i], -k));
+    };
+
+    cout<<"Plaintext: "<<plaintext<<endl;
+    return 0;
 }
