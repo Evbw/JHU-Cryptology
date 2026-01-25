@@ -56,7 +56,7 @@ int bestKeyForColumn(string ct, int col) {
     double diff = 0.0;
     
     for ( int i = 0; i < ALPHABET; i++ ) {
-        M = computeM_forColumnKey(ct, col, i) 
+        M = computeM_forColumnKey(ct, col, i);
         diff = (M > TARGETM_G) ? (M - TARGETM_G) : (TARGETM_G - M);
 
         if ( diff < bestDiff ){
@@ -74,5 +74,13 @@ int main() {
     for ( int col = 0; col < KEYLENGTH; col++ ) {
         keyShift[col] = bestKeyForColumn(CIPHERTEXT, col);
     }
+
+    string key;
+
+    for ( int k = 0; k < KEYLENGTH; k++ ) {
+        key.push_back(char('A' + keyShift[k]))
+    };
+
+    cout<<"Key: "<<key<<endl;
 
 }
