@@ -35,7 +35,18 @@ double computeM_forColumnKey(string ct, int col, int i) {
 
     for ( int pos = col; pos < ct.size(); pos += KEYLENGTH ) {
         char c = shiftUpper(ct[pos], -i);
+        freq[c - 'A']++;
+        n++;
     }
+
+    double sum = 0.0;
+
+    if ( n == 0 ) return sum;
+
+    for ( int j = 0; j < ALPHABET; j++ ) {
+        sum += double(freq[j]) * PROBABILITY[j];
+    }
+    return sum / double(n);
 }
 
 int bestKeyForColumn(string ct, int col) {
