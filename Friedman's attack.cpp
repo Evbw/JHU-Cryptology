@@ -20,6 +20,13 @@ const int ALPHABET = 26;
 const int KEYLENGTH = 6;
 const double TARGETM_G = 0.065;
 
+/*Purpose:  Shifts the input character based on ASCII, with A = 65 being the baseline
+    Input: A character, c, and a shift amount
+    Variables:
+        x: Used to calculate the amount that the character is shifted.
+    Return: A character, offset a certain amount from A, from 0-25 (A-Z)
+*/
+
 char shiftUpper(char c, int shift) {
     int x = (c - 'A') + shift;
     x % ALPHABET;
@@ -28,6 +35,14 @@ char shiftUpper(char c, int shift) {
     }
     return char('A' + x);
 }
+
+/*Purpose: Computes M_i for a column of the key, assuming a specific key letter.
+    Input: A string, ct, and a and integers for the column and i (specific letter of the alphabet)
+    Variables:
+        freq: And array for each letter of the alphabet to tabulate frequency
+        n: A count of the number of iterations through the for loop
+    Return: A double, the sum divided by the number of for loop iterations
+*/
 
 double computeM_forColumnKey(string ct, int col, int i) {
     array<int, ALPHABET> freq{};
@@ -48,6 +63,16 @@ double computeM_forColumnKey(string ct, int col, int i) {
     }
     return sum / double(n);
 }
+
+/*Purpose: Determines the best key for a column by finding the closest value to TARGETM_G
+    Input: A string of ciphertext and an integer for the column
+    Variables:
+        best: An integer that is as close as possible to the TARGETM_G
+        diff and bestDiff: Doubles that are compared to determine the small different from the TARGETM_G
+        M: A double that is used for comparison and assignment for the frequency of a letter
+    Return:
+        A number from 0-25 representing the letters A-Z
+*/
 
 int bestKeyForColumn(string ct, int col) {
     int best = 0;
@@ -75,15 +100,20 @@ int main() {
         keyShift[col] = bestKeyForColumn(CIPHERTEXT, col);
     }
 
+    //Given the array keyShift has the best value for every column, establish a key and push the values onto it
     string key;
 
     for ( int k = 0; k < KEYLENGTH; k++ ) {
         key.push_back(char('A' + keyShift[k]));
     }
 
+    //Print out the original ciphertext and the key
+
     cout<<CIPHERTEXT<<endl;
 
     cout<<"Key: "<<key<<endl;
+
+    //Then add the values of the plaintext properly offset by the corresponding key value
 
     string plaintext;
     for ( int i = 0; i < CIPHERTEXT.size(); i++ ) {
