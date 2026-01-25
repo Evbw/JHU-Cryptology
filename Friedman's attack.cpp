@@ -20,6 +20,15 @@ const int ALPHABET = 26;
 const int KEYLENGTH = 6;
 const double TARGETM_G = 0.065;
 
+char shiftUpper(char c, int shift) {
+    int x = (c - 'A') + shift;
+    x % ALPHABET;
+    if ( x < 0 ) {
+        x += ALPHABET;
+    }
+    return char('A' + x);
+}
+
 double computeM_forColumnKey(string ct, int col, int i) {
     array<int, ALPHABET> freq{};
     int n = 0;
