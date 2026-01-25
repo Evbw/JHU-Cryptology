@@ -20,13 +20,22 @@ const int ALPHABET = 26;
 const int KEYLENGTH = 6;
 const double TARGETM_G = 0.065;
 
+double computeM_forColumnKey(string ct, int col, int i) {
+    array<int, ALPHABET> freq{};
+    int n = 0;
+
+    for ( int pos = col; pos < ct.size(); pos += KEYLENGTH ) {
+        char c = shiftUpper(ct[pos], -i);
+    }
+}
+
 int bestKeyForColumn(string ct, int col) {
     int best = 0;
     double bestDiff = 100;
     
     for ( int i = 0; i < ALPHABET; i++ ) {
         double M = computeM_forColumnKey(ct, col, i) {
-            
+
         }
     }
 }
