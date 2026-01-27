@@ -74,6 +74,14 @@ int friedmanEstimate(string ct) {
 int chooseKeyLengthFriedman(string ct, int maxKeyLength ) {
     
     int estimate = friedmanEstimate(ct);
+    int bestK = 1;
+    double bestScore = 100;
+    double avgIC = 0;
+    double score = 0;
+
+    for ( int k = 1; k <= maxKeyLength; k++ ) {
+        avgIC = averageColumnIC(ct, k);
+    }
 }
 
 /*Purpose: Computes M_i for a column of the key, assuming a specific key letter.
