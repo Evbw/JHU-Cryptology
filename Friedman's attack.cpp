@@ -42,6 +42,16 @@ char shiftUpper(char c, int shift) {
     return char('A' + x);
 }
 
+/*Purpose:  Computes the Index of Coincidence (IC) for a given string of ciphertext.
+    Input: A string, s, consisting of letters A-Z (no lowercase)
+    Variables:
+        f: An array to count the frequency of each letter in the alphabet
+        n: Total number of characters in a string
+        num: The numerator of the IC formula {f[i](f[i] - 1)}
+        den: The denominator of the IC formula {n(n-1)}
+    Return: A double representing the IC or likelihood that two randomly chosen characters from the input string are identical
+*/
+
 double indexOfCoincidence(string s) {
     if ( s.size() < 2 ) {
         return 0.0;
@@ -49,14 +59,23 @@ double indexOfCoincidence(string s) {
 
     array <int, ALPHABET> f{};
     for ( char c : s ) f[c - 'A']++;
-    int N = s.size();
+    int n = s.size();
     int num = 0;
     for ( int i = 0; i < ALPHABET; i++ ) {
         num += 1 * f[i] * (f[i] - 1);
     }
-    int den = N * (N - 1);
+    int den = n * (n - 1);
     return ( den == 0 ) ? 0.0 : (double)num/(double)den;
 }
+
+/*Purpose:  Extracts a substring to a single column
+    Input: A string, ct, containing the ciphertext string, an int, column for the column index, and an int keyLength
+            representing the assumed keyLength.
+    Variables:
+        columnText: A string used to store every keyLength character from ct starting at index column
+        position: An integer used to step through ct at intervals of keyLength.
+    Return: A string containing all characters from the ct that belong to the specified column.
+*/
 
 string getColumn (string ct, int column, int keyLength) {
     string columnText;
@@ -65,6 +84,15 @@ string getColumn (string ct, int column, int keyLength) {
     }
     return columnText;
 }
+
+/*Purpose:  Computes the average Index of Coincidence (IC) for all given an assumed key length.
+    Input: A string, ct, containing the ciphertext string and an int keyLength representing the assumed keyLength.
+    Variables:
+        sum: Accumulates the Index of Coincidence for each column.
+        columns: Counts the columns that have enough characters to produce a valid IC value.
+        col: An integer to iterate over each column index.
+    Return: A double representing the mean IC over all valid columns for the given key length.
+*/
 
 double averageColumnIC(string ct, int keyLength) {
     if ( keyLength < 0 ) return 0.0;
@@ -80,20 +108,42 @@ double averageColumnIC(string ct, int keyLength) {
     return (columns == 0) ? 0.0 : sum / (double)columns;
 }
 
+/*Purpose:  Estimates the Vigenere key length using Friedman's Index of Coincidence (IC) method applied to a ciphertext.
+    Input: A string, ct, containing the ciphertext.
+    Variables:
+        ic: The IC over the whole ciphertext.
+        n: Total number of characters in the ciphertext.
+        num: The difference between English and random IC values.
+        den: A normalization term accounting for ciphertext length and deviation from random coincidence.
+    Return: An integer representing the estimated key length, rounded to the nearest whole number.
+*/
+
 int friedmanEstimate(string ct) {
     double ic = indexOfCoincidence(ct);
     double n = (double)ct.size();
-    double numerator = ICDIFF * n;
-    double denominator = (TARGETM_G - ic) + n * (ic - 0.0385);
-    if ( denominator < 0.0 ) {
+    double num = ICDIFF * n;
+    double den = (TARGETM_G - ic) + n * (ic - 0.0385);
+    if ( den < 0.0 ) {
         return 1;
     }
-    int k = (int)round(numerator/denominator);
+    int k = (int)round(num/den);
     if ( k < 1 ) {
         k = 1;
     }
     return k;
 }
+
+/*Purpose:  Selects the most likely Vigenere key length by evaluating candidates based on Friedman statistics
+    Input: A string, ct, containing the ciphertext string and an int maxKeyLength representing the maximum key length to be tested.
+    Variables:
+        estimate: An initial key length estimate obtained from Friedman's formula.
+        bestK: The key length that best matches expected occurences of letters in English.
+        bestScore: The smallest deviation from the target IC value.
+        k: An integer used to iterate through candidate key lengths.
+        avgIC: The average IC across columns for a given k.
+        score: A weighted measure of how closely avgIC matches English IC.
+    Return: An integer representing the most probable key length.
+*/
 
 int chooseKeyLengthFriedman(string ct, int maxKeyLength ) {
     
@@ -117,7 +167,7 @@ int chooseKeyLengthFriedman(string ct, int maxKeyLength ) {
 }
 
 /*Purpose: Computes M_i for a column of the key, assuming a specific key letter.
-    Input: A string, ct, and a and integers for the column and i (specific letter of the alphabet)
+    Input: A string, ct, an int for the column, an int for a specific letter of the alphabet i, and an int for the keyLength
     Variables:
         freq: And array for each letter of the alphabet to tabulate frequency
         n: A count of the number of iterations through the for loop
@@ -145,7 +195,7 @@ double computeM_forColumnKey(string ct, int col, int i, int keyLength) {
 }
 
 /*Purpose: Determines the best key for a column by finding the closest value to TARGETM_G
-    Input: A string of ciphertext and an integer for the column
+    Input: A string of ciphertext, an int for the column, and an int for the keyLength
     Variables:
         best: An integer that is as close as possible to the TARGETM_G
         diff and bestDiff: Doubles that are compared to determine the small different from the TARGETM_G
@@ -174,11 +224,13 @@ int bestKeyForColumn(string ct, int col, int keyLength) {
 
 int main() {
 
+    //Declare a variable to pass to functions containing the ciphertext
     string ct = CIPHERTEXT;
 
+    //Guess a key length
     int keyLength = chooseKeyLengthFriedman(ct, SEARCHLIMIT);
 
-    cout<<"Estimated key length: "<<keyLength<<endl;
+    cout<<"Estimated key length: "<<keyLength<<endl<<endl;
     
     //Establish an array for finding the best column for the shifting of an encrypted letter
     vector<int> keyShift(keyLength);
@@ -196,9 +248,9 @@ int main() {
 
     //Print out the original ciphertext and the key
 
-    cout<<CIPHERTEXT<<endl;
+    cout<<"Ciphertext: "<<CIPHERTEXT<<endl<<endl;
 
-    cout<<"Key: "<<key<<endl;
+    cout<<"Key: "<<key<<endl<<endl;
 
     //Then add the values of the plaintext properly offset by the corresponding key value
 
