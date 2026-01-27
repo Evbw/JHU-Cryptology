@@ -70,7 +70,12 @@ double averageColumnIC(string ct, int keyLength) {
     int columns = 0;
     for ( int col = 0; col < keyLength; col++ ) {
         string c = getColumn(ct, col, keyLength);
+        if ( c.size() >= 2 ) {
+            sum += indexOfCoincidence(c);
+            columns++;
+        }
     }
+    return (columns == 0) ? 0.0 : sum / (double)columns;
 }
 
 int friedmanEstimate(string ct) {
