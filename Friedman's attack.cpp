@@ -20,8 +20,9 @@ const int ALPHABET = 26;
 const double TARGETM_G = 0.065;
 const int SEARCHLIMIT = 10;
 
-//An index of coincidence for two random characters (sum of (1/26)^2 = 1/26 ~ 0.0385)
+//An index of coincidence for two random characters (sum of (1/26)^2 = 1/26 ~ 0.0385). ICDIFF = 0.065 - 0.0385
 const double RIC = 0.0385;
+const double ICDIFF = 0.0265
 
 /*Purpose:  Shifts the input character based on ASCII, with A = 65 being the baseline
     Input: A character, c, and a shift amount
@@ -57,6 +58,17 @@ double indexOfCoincidence(string s) {
 
 int friedmanEstimate(string ct) {
     double ic = indexOfCoincidence(ct);
+    double n = (double)ct.size();
+    double numerator = ICDIFF * n;
+    double denominator = (TARGETM_G - ic) + n * (IC - 0.0385);
+    if ( denominator < 0.0 ) {
+        return 1;
+    }
+    int k = (int)found(numerator/denominator);
+    if ( k < 1 ) {
+        k = 1;
+    }
+    return k;
 }
 
 int chooseKeyLengthFriedman(string ct, int maxKeyLength ) {
