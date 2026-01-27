@@ -103,7 +103,15 @@ int chooseKeyLengthFriedman(string ct, int maxKeyLength ) {
 
     for ( int k = 1; k <= maxKeyLength; k++ ) {
         avgIC = averageColumnIC(ct, k);
+        score = fabs(avgIC - TARGETM_G);
+        score += 0.001 * fabs(k - estimate);
+
+        if ( score < bestScore ) {
+            bestScore = score;
+            bestK = k;
+        }
     }
+    return bestK;
 }
 
 /*Purpose: Computes M_i for a column of the key, assuming a specific key letter.
