@@ -56,6 +56,14 @@ double indexOfCoincidence(string s) {
     return ( den == 0 ) ? 0.0 : (double)num/(double)den;
 }
 
+string getColumn (string ct, int column, int keyLength) {
+    string columnText;
+    for ( int position = column; position < (int)ct.size(); position += keyLength ) {
+        columnText.push_back(ct[position]);
+    }
+    return columnText;
+}
+
 double averageColumnIC(string ct, int keyLength) {
     if ( keyLength < 0 ) return 0.0;
     double sum = 0.0;
