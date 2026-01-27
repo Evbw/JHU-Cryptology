@@ -36,7 +36,10 @@ char shiftUpper(char c, int shift) {
     return char('A' + x);
 }
 
-
+int chooseKeyLengthFriedman(string ct, int maxKeyLength ) {
+    
+    int estimate = friedmanEstimate(ct);
+}
 
 /*Purpose: Computes M_i for a column of the key, assuming a specific key letter.
     Input: A string, ct, and a and integers for the column and i (specific letter of the alphabet)
