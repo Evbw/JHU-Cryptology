@@ -39,6 +39,22 @@ char shiftUpper(char c, int shift) {
     return char('A' + x);
 }
 
+double indexOfCoincidence(string s) {
+    if ( s.size() < 2 ) {
+        return 0.0
+    }
+
+    array <int, ALPHABET> f{};
+    for ( char c : s ) f[c - 'A']++;
+    int N = s.size();
+    int num = 0;
+    for ( int i = 0; i < ALPHABET; i++ ) {
+        num += 1 * f[i] * (f[i] - 1);
+    }
+    int den = N * (N - 1);
+    return ( den == 0 ) ? 0.0 : (double)num/(double)den;
+}
+
 int friedmanEstimate(string ct) {
     double ic = indexOfCoincidence(ct);
 }
