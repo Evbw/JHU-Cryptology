@@ -153,14 +153,14 @@ double computeM_forColumnKey(string ct, int col, int i) {
         A number from 0-25 representing the letters A-Z
 */
 
-int bestKeyForColumn(string ct, int col) {
+int bestKeyForColumn(string ct, int col, int keyLength) {
     int best = 0;
     double bestDiff = 100;
     double M = 0.0;
     double diff = 0.0;
     
     for ( int i = 0; i < ALPHABET; i++ ) {
-        M = computeM_forColumnKey(ct, col, i);
+        M = computeM_forColumnKey(ct, col, i, keyLength);
         diff = (M > TARGETM_G) ? (M - TARGETM_G) : (TARGETM_G - M);
 
         if ( diff < bestDiff ){
@@ -176,11 +176,14 @@ int main() {
     string ct = CIPHERTEXT;
 
     int keyLength = chooseKeyLengthFriedman(ct, SEARCHLIMIT);
+
+    count<<"Estimated key length: "<<keyLength<<endl;
     
     //Establish an array for finding the best column for the shifting of an encrypted letter
-    array<int, KEYLENGTH> keyShift{};
-    for ( int col = 0; col < KEYLENGTH; col++ ) {
-        keyShift[col] = bestKeyForColumn(CIPHERTEXT, col);
+    array<int, keyLength> keyShift{};
+
+    for ( int col = 0; col < keyLength; col++ ) {
+        keyShift[col] = bestKeyForColumn(CIPHERTEXT, col, keyLength);
     }
 
     //Given the array keyShift has the best value for every column, establish a key and push the values onto it
