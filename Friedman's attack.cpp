@@ -56,6 +56,15 @@ double indexOfCoincidence(string s) {
     return ( den == 0 ) ? 0.0 : (double)num/(double)den;
 }
 
+double averageColumnIC(string ct, int keyLength) {
+    if ( keyLength < 0 ) return 0.0;
+    double sum = 0.0;
+    int columns = 0;
+    for ( int col = 0; col < keyLength; col++ ) {
+        string c = getColumn(ct, col, keyLength);
+    }
+}
+
 int friedmanEstimate(string ct) {
     double ic = indexOfCoincidence(ct);
     double n = (double)ct.size();
