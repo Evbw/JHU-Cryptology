@@ -16,9 +16,9 @@ const array<double, 26> PROBABILITY = { 0.082, 0.015, 0.028, 0.043, 0.127, 0.022
 const string CIPHERTEXT = "BNWEOMZOBNTALBAECJHKXSFGYZXMBNBVZSBXMETRRTNOLTUWGXKOTJTUFIAYFCLTOWMPXPEGVMLSBXICMTVFZBAEZAGMWSTWKLBJXKMZTDRTNOZIAYBAMWVUXILHNJWILWEAMQGGGZXKHDRAGBAESAKAMPYSVMMHRJXNHRRAYGHUJJBBXTUWVWWENKVTXVRJEGTSCGLABBYWRWNAEWUGWESAGQMIBFGWMSZSKBXNBMZPMOQWUCZIGTKQTNXWKVBGUSGBHEEJBAAUZSGJNTGGKMTLYQYWNLGZBVZSHHRWNNRWWIVOZHNBXRCSNTXHEDBKAISQHCYIAVMPTTLGNZXSCWGLBNTSEUHSGSETROHJMQFEBFMPXOEQLBTRGLNZGIAYLWFENLMMGTVGGBHPESVBBCNDMPBNTKBBPIYDBUIRBNXGHUELAMHRVWLQYYBMYQGDGZTBROHJXAIEAVBVZAYEHAMAYDRWNRGAFMHNCJTKMIPWLBTRGLNZGIAYLWFENLMMGTVGGBHTUWHZXTVUTTMHVFZABTJAETBMCJHDXYBMKXKAPLBKXDBFTTWKAMMP";
 const int ALPHABET = 26;
 
-//Known key length and a target value for character coincidence frequency
-const int KEYLENGTH = 6;
+//Target value for character coincidence frequency and search limit for a likely key length
 const double TARGETM_G = 0.065;
+const int SEARCHLIMIT = 10;
 
 /*Purpose:  Shifts the input character based on ASCII, with A = 65 being the baseline
     Input: A character, c, and a shift amount
@@ -29,12 +29,14 @@ const double TARGETM_G = 0.065;
 
 char shiftUpper(char c, int shift) {
     int x = (c - 'A') + shift;
-    x % ALPHABET;
+    x %= ALPHABET;
     if ( x < 0 ) {
         x += ALPHABET;
     }
     return char('A' + x);
 }
+
+
 
 /*Purpose: Computes M_i for a column of the key, assuming a specific key letter.
     Input: A string, ct, and a and integers for the column and i (specific letter of the alphabet)
@@ -93,6 +95,10 @@ int bestKeyForColumn(string ct, int col) {
 }
 
 int main() {
+
+    string ct = CIPHERTEXT;
+
+    int keyLength = chooseKeyLengthFriedman(ct, SEARCHLIMIT);
     
     //Establish an array for finding the best column for the shifting of an encrypted letter
     array<int, KEYLENGTH> keyShift{};
