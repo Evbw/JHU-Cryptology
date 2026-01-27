@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <array>
+#include <vector>
 #include <cmath>
 using namespace std;
 
@@ -180,7 +181,7 @@ int main() {
     cout<<"Estimated key length: "<<keyLength<<endl;
     
     //Establish an array for finding the best column for the shifting of an encrypted letter
-    array<int, keyLength> keyShift{};
+    vector<int> keyShift(keyLength);
 
     for ( int col = 0; col < keyLength; col++ ) {
         keyShift[col] = bestKeyForColumn(CIPHERTEXT, col, keyLength);
@@ -189,7 +190,7 @@ int main() {
     //Given the array keyShift has the best value for every column, establish a key and push the values onto it
     string key;
 
-    for ( int k = 0; k < KEYLENGTH; k++ ) {
+    for ( int k = 0; k < keyLength; k++ ) {
         key.push_back(char('A' + keyShift[k]));
     }
 
@@ -203,7 +204,7 @@ int main() {
 
     string plaintext;
     for ( int i = 0; i < CIPHERTEXT.size(); i++ ) {
-        int k = keyShift[i % KEYLENGTH];
+        int k = keyShift[i % keyLength];
         plaintext.push_back(shiftUpper(CIPHERTEXT[i], -k));
     };
 
