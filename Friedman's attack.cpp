@@ -123,11 +123,11 @@ int chooseKeyLengthFriedman(string ct, int maxKeyLength ) {
     Return: A double, the sum divided by the number of for loop iterations
 */
 
-double computeM_forColumnKey(string ct, int col, int i) {
+double computeM_forColumnKey(string ct, int col, int i, int keyLength) {
     array<int, ALPHABET> freq{};
     int n = 0;
 
-    for ( int pos = col; pos < ct.size(); pos += KEYLENGTH ) {
+    for ( int pos = col; pos < ct.size(); pos += keyLength ) {
         char c = shiftUpper(ct[pos], -i);
         freq[c - 'A']++;
         n++;
@@ -177,7 +177,7 @@ int main() {
 
     int keyLength = chooseKeyLengthFriedman(ct, SEARCHLIMIT);
 
-    count<<"Estimated key length: "<<keyLength<<endl;
+    cout<<"Estimated key length: "<<keyLength<<endl;
     
     //Establish an array for finding the best column for the shifting of an encrypted letter
     array<int, keyLength> keyShift{};
