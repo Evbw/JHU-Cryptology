@@ -16,4 +16,10 @@ int main() {
     //Values for keys, which are equiprobably, in a vector
     vector<double> k = { 1.0/3.0 };
 
+    //Encryption matrix e[k][p] = c (with 0, 1, 2, 3 corresponding to ciphertext 1, 2, 3, 4)
+    int e[NUMK][NUMP] {
+        {0, 1, 2}
+        {1, 2, 3}
+        {2, 3, 0}
+    }
 }
