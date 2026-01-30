@@ -5,10 +5,21 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 //There is a fixed number of plaintext elements, keys, and ciphertexts
 const int NUMP = 3, NUMK = 3, NUMC = 4;
+
+double entropycalculation(vector<double> probs) {
+    double H;
+    for ( double p: probs ) {
+        if ( p > 0.0 ) {
+            H += -p * log2(p);
+        }
+    }
+    return H;
+}
 
 int main() {
     //Values for a, b, and c stored in a vector
@@ -36,4 +47,6 @@ int main() {
     double HP = entropycalculation(pV);
     double HK = entropycalculation(kV);
     double HC = entropycalculation(cV);
+
+    cout<<endl<<HP<<" "<<HK<<" "<<HC<<endl;
 }
