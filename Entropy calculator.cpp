@@ -31,4 +31,9 @@ int main() {
             cV[c] += kV[k] * pV[p];
         }
     }
+
+    //Calculate H(P), H(K), H(C)
+    double HP = entropycalculation(pV);
+    double HK = entropycalculation(kV);
+    double HC = entropycalculation(cV);
 }
