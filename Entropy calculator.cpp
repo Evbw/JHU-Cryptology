@@ -26,6 +26,9 @@ int main() {
     //Compute value for P(C)
     vector<double> cV(NUMC, 0.0);
     for ( int k = 0; k < NUMK; k++ ) {
-        
+        for ( int p = 0; p < NUMP; p++ ) {
+            int c = e[k][p];
+            cV[c] += kV[k] * pV[p];
+        }
     }
 }
