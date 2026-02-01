@@ -53,6 +53,7 @@ int main() {
     double hpGivenC = 0.0;
     double hpc = 0.0;
     double join = 0.0;
+    vector<double> prxy(NUMP, 0.0);
     for ( int c = 0; c < NUMC; c++ ) { //Hey! That's the name of the programming language!
         for ( int p = 0; p < NUMP; p++ ) {
             join = 0.0;
@@ -61,7 +62,7 @@ int main() {
                     join += pV[p] + kV[k];
                 }
             }
-            double prxy = join / cV[c];
+            prxy[p] = join / cV[c];
             hpc = entropycalculation(prxy);
         }
     }
