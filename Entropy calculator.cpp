@@ -48,18 +48,25 @@ int main() {
     double HK = entropycalculation(kV);
     double HC = entropycalculation(cV);
 
-    //cout<<endl<<HP<<" "<<HK<<" "<<HC<<endl;
-
     double hkGivenC = HK + HP - HC;
 
     double hpGivenC = 0.0;
+    double hpc = 0.0;
     double join = 0.0;
     for ( int c = 0; c < NUMC; c++ ) { //Hey! That's the name of the programming language!
         for ( int p = 0; p < NUMP; p++ ) {
             join = 0.0;
             for ( int k = 0; k < NUMK; k++ ) {
-
+                if (e[k][p] == c) {
+                    join += pV[p] + kV[k];
+                }
             }
+            double prxy = join / cV[c];
+            hpc = entropycalculation(prxy);
         }
     }
+
+    //cout<<endl<<HP<<" "<<HK<<" "<<HC<<endl;
+
+    //cout<<endl<<hkGivenC<<" "<<hpGivenCendl;
 }
