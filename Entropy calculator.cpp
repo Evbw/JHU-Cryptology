@@ -25,7 +25,7 @@ int main() {
     //Values for a, b, and c stored in a vector
     vector<double> pV = { 1.0/6.0, 2.0/6.0, 3.0/6.0 };
     //Values for keys, which are equiprobably, in a vector
-    vector<double> kV = { 1.0/3.0 };
+    vector<double> kV(NUMK,1.0/3.0 );
 
     //Encryption matrix e[k][p] = c (with 0, 1, 2, 3 corresponding to ciphertext 1, 2, 3, 4)
     int e[NUMK][NUMP] {
@@ -55,19 +55,22 @@ int main() {
     double join = 0.0;
     vector<double> prxy(NUMP, 0.0);
     for ( int c = 0; c < NUMC; c++ ) { //Hey! That's the name of the programming language!
+        //if (cV[c] <= 0.0) continue;
+
         for ( int p = 0; p < NUMP; p++ ) {
             join = 0.0;
             for ( int k = 0; k < NUMK; k++ ) {
                 if (e[k][p] == c) {
-                    join += pV[p] + kV[k];
+                    join += pV[p] * kV[k];
                 }
             }
-            prxy[p] = join / cV[c];
-            hpc = entropycalculation(prxy);
+            prxy[p] = join / cV[c];    
         }
+        hpc = entropycalculation(prxy);
+        hpGivenC += cV[c] * hpc;
     }
 
-    //cout<<endl<<HP<<" "<<HK<<" "<<HC<<endl;
+    cout<<endl<<"H(P) = "<<HP<<endl<<"H(K) = "<<HK<<endl<<"H(C) = "<<HC<<endl;
 
-    //cout<<endl<<hkGivenC<<" "<<hpGivenCendl;
+    cout<<endl<<"H(K|C) = "<<hkGivenC<<endl<<"H(P|C) = "<<hpGivenC<<endl;
 }
