@@ -21,11 +21,29 @@ static const uint8_t SBOX[256] = {
         0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
     };
 
+const int KEYSIZE = 16;
+
+unsigned int w[44];     //Array to hold the key after expansion
+
+void expandKey(unsigned char key[KEYSIZE]) {
+    
+    for ( int i = 0; i < 4; i++ ) {
+        w[i] = 0;
+        w[i] = w[i] | (key[i*4] << 24);
+        w[i] = w[i] | (key[i*4 + 1] << 16);
+        w[i] = w[i] | (key[i*4 + 2] << 8);
+        w[i] = w[i] | (key[i*4 + 3]);
+    }
+
+}
+
 int main() {
 
-    unsigned char key [16] {
+    unsigned char key [KEYSIZE] {
         0x39, 0xef, 0x7c, 0x5e, 0x43, 0xb4, 0xf9, 0xce, 0x5e, 0xf3, 0x37, 0x3c, 0x3b, 0xd2, 0x64, 0xb6
     };
+
+    expandKey(key);
 
     return 0;
 }
