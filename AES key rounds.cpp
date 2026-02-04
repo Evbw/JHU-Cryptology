@@ -57,8 +57,6 @@ unsigned int subWord(unsigned int word) {
     return output;
 }
 
-unsigned int w[44];
-
 void expandKey(unsigned char key[KEYSIZE]) {
     
     unsigned int temp = 0;      //temp value to hold words
@@ -79,7 +77,7 @@ void expandKey(unsigned char key[KEYSIZE]) {
             temp = subWord(temp);
             temp = temp ^ (RCON[i/4] << 24); //XOR temp with the appropriate level of the round constant
         }
-        
+
         w[i] = w[i-4] ^ temp;
     }
 }
@@ -90,7 +88,29 @@ int main() {
         0x39, 0xef, 0x7c, 0x5e, 0x43, 0xb4, 0xf9, 0xce, 0x5e, 0xf3, 0x37, 0x3c, 0x3b, 0xd2, 0x64, 0xb6
     };
 
+    unsigned char b0, b1, b2, b3;
+
+    unsigned int word = 0;
+
     expandKey(key);
+
+    for ( int round = 0; round <= 10; round++ ) {
+        cout<<"Round "<<round<<" key: ";
+
+        for ( int i = 0; i < 4; i++ ) {
+            word = w[round * 4 + i];
+            b0 = (word >> 24) & 0xff;
+            b1 = (word >> 16) & 0xff;
+            b2 = (word >> 8) & 0xff;
+            b3 = word & 0xff;
+
+            cout<<hex<<(int)b0;
+            cout<<hex<<(int)b1;
+            cout<<hex<<(int)b2;
+            cout<<hex<<(int)b3;
+        }
+        cout<<endl;
+    }
 
     return 0;
 }
