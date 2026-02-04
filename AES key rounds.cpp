@@ -53,6 +53,8 @@ unsigned int subWord(unsigned int word) {
     output = output | (b1 << 16);
     output = output | (b2 << 8);
     output = output | b3;
+
+    return output;
 }
 
 unsigned int w[44];
@@ -77,8 +79,9 @@ void expandKey(unsigned char key[KEYSIZE]) {
             temp = subWord(temp);
             temp = temp ^ (RCON[i/4] << 24); //XOR temp with the appropriate level of the round constant
         }
+        
+        w[i] = w[i-4] ^ temp;
     }
-
 }
 
 int main() {
