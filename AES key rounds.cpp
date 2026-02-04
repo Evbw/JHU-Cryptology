@@ -31,12 +31,28 @@ unsigned int w[44];     //Array to hold the key after expansion
 
 unsigned int rotateWord(unsigned int word) {
     unsigned int result;
-    result = (word << 8) | (word >> 24)         //OR two versions of the shifted word to catch rotate the word
+    result = (word << 8) | (word >> 24);    //OR two versions of the shifted word to catch rotate the word
     return result;
 }
 
 unsigned int subWord(unsigned int word) {
-    
+    unsigned char b0, b1, b2, b3;
+    unsigned int output = 0;
+
+    b0 = (word >> 24) & 0xff;   //Shift the word and perform the AND operation with 11111111 to keep only the part
+    b1 = (word >> 16) & 0xff;   //of the subword we're interested in. E.g. 39ef7c5e becomes b0 = 39, b1 = ef, etc.
+    b2 = (word >> 8) & 0xff;
+    b3 = word & 0xff;
+
+    b0 = SBOX[b0];              //Find the appropriate substitution in the SBOX
+    b1 = SBOX[b1];
+    b2 = SBOX[b2];
+    b3 = SBOX[b3];
+
+    output = output | (b0 << 24);       //OR the output with shifted version of the sup word, building up the entire word again
+    output = output | (b1 << 16);
+    output = output | (b2 << 8);
+    output = output | b3;
 }
 
 unsigned int w[44];
