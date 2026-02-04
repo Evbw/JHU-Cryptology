@@ -30,7 +30,9 @@ const int KEYSIZE = 16; //Integer to hold the size of the key
 unsigned int w[44];     //Array to hold the key after expansion
 
 unsigned int rotateWord(unsigned int word) {
-
+    unsigned int result;
+    result = (word << 8) | (word >> 24)         //OR two versions of the shifted word to catch rotate the word
+    return result;
 }
 
 unsigned int subWord(unsigned int word) {
