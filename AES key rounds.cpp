@@ -1,3 +1,8 @@
+/*
+    File name: AES key rounds
+    Purpose: An example program to calculate the 10-round AES key schedule
+*/
+
 #include <iostream>
 using namespace std;
 
@@ -22,18 +27,33 @@ static const uint8_t SBOX[256] = {
 };
 
 unsigned char RCON[11] = {
-    0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36
+    0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36    //The round constants, in hex
 };
 
 const int KEYSIZE = 16; //Integer to hold the size of the key
 
 unsigned int w[44];     //Array to hold the key after expansion
 
+/*Purpose: Moves the hex values in a word one place to the left. Leftmost character wraps around to the end
+    Input: An unsigned integer word
+    Variables:
+        result: An unsigned int to store the resulting word
+    Return: result, the new word once it's been shifted
+*/
+
 unsigned int rotateWord(unsigned int word) {
     unsigned int result;
     result = (word << 8) | (word >> 24);    //OR two versions of the shifted word to catch rotate the word
     return result;
 }
+
+/*Purpose: To find the correct substitution word from the AES S-box
+    Input: An unsigned integer word
+    Variables:
+        b0-b3: Four unsigned chars to store the hex 'letters' to find an appropriate substitution in the S-box
+        output: An unsigned int to store the resulting word
+    Return: output, the new word once it's been shifted
+*/
 
 unsigned int subWord(unsigned int word) {
     unsigned char b0, b1, b2, b3;
@@ -57,9 +77,17 @@ unsigned int subWord(unsigned int word) {
     return output;
 }
 
+/*Purpose: To expand the individual parts of a key to a 44-bit word
+    Input: An array containing the individual parts of the key
+    Variables:
+        w: a 44-bit array containing the word
+        temo: A temporary value to hold words as they get shifted around
+    Return: No return value
+*/
+
 void expandKey(unsigned char key[KEYSIZE]) {
     
-    unsigned int temp = 0;      //temp value to hold words
+    unsigned int temp = 0;                  //temp value to hold words
     
     for ( int i = 0; i < 4; i++ ) {         //Create the first words directly from the key
         w[i] = 0;
@@ -69,7 +97,7 @@ void expandKey(unsigned char key[KEYSIZE]) {
         w[i] = w[i] | (key[i*4 + 3]);
     }
 
-    for ( int i = 4; i < 44; i++ ) {            //Follow AES algorithm to create the rest of the words
+    for ( int i = 4; i < 44; i++ ) {        //Follow AES algorithm to create the rest of the words
         temp = w[i - 1];
 
         if ( i % 4 == 0 ) {
@@ -94,7 +122,7 @@ int main() {
 
     expandKey(key);
 
-    for ( int round = 0; round <= 10; round++ ) {
+    for ( int round = 0; round <= 10; round++ ) {       //Printing output
         cout<<"Round "<<round<<" key: ";
 
         for ( int i = 0; i < 4; i++ ) {
@@ -104,8 +132,8 @@ int main() {
             b2 = (word >> 8) & 0xff;
             b3 = word & 0xff;
 
-            if (b0 < 16) cout<<"0";
-            cout<<hex<<(int)b0;
+            if (b0 < 16) cout<<"0";                     //Hardcoded method to output 0 characters in instances where the 'letter' is less than 16
+            cout<<hex<<(int)b0;                         //Otherwise the printed int was showing something like 7 instead of 07
             if (b1 < 16) cout<<"0";
             cout<<hex<<(int)b1;
             if (b2 < 16) cout<<"0";
