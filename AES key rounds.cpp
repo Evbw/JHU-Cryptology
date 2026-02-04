@@ -104,9 +104,13 @@ int main() {
             b2 = (word >> 8) & 0xff;
             b3 = word & 0xff;
 
+            if (b0 < 16) cout<<"0";
             cout<<hex<<(int)b0;
+            if (b1 < 16) cout<<"0";
             cout<<hex<<(int)b1;
+            if (b2 < 16) cout<<"0";
             cout<<hex<<(int)b2;
+            if (b3 < 16) cout<<"0";
             cout<<hex<<(int)b3;
         }
         cout<<endl;
