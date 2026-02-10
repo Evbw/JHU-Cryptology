@@ -9,13 +9,14 @@ int main() {
         for ( int ydiff = 0; ydiff < 16; ydiff++ ) {
             int count = 0;                                  //Reset the count at the beginning of each encrypted comparison
             for ( int x = 0; x < 16; x++ ) {
-                int xstar = x ^ xdiff;
-                if ( (sbox[x] ^ sbox[xstar]) == ydiff ) {
-                    count++;
+                int xstar = x ^ xdiff;                      //x* is the difference between all values of x and an input difference
+                if ( (sbox[x] ^ sbox[xstar]) == ydiff ) {   //Compare the values of the output difference to see if it matches the target
+                    count++;                                //and increase the count if it does
                 }
             }
+            cout<<setw(6)<<count;
         }
+        cout<<endl;
     }
-
     return 0;
 }
