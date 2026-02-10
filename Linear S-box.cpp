@@ -20,6 +20,11 @@ int main() {
             for ( int x = 0; x < 16; x++ ) {
                 int y = sbox[x];
                 int ax = xord(a, x);
+                int by = xord(b, y);
+                if ( ax == by ) {
+                    count++;
+                }
+                cout<<count<<endl;
             }
         }
     }
