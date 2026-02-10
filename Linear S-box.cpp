@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 int xord(int mask, int val) {
@@ -24,9 +25,10 @@ int main() {
                 if ( ax == by ) {
                     count++;
                 }
-                cout<<count<<endl;
             }
+            cout<<setw(6)<<count;
         }
+        cout<<endl;
     }
 
     return 0;
