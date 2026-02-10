@@ -9,7 +9,10 @@ int main() {
         for ( int ydiff = 0; ydiff < 16; ydiff++ ) {
             int count = 0;                                  //Reset the count at the beginning of each encrypted comparison
             for ( int x = 0; x < 16; x++ ) {
-                
+                int xstar = x ^ xdiff;
+                if ( (sbox[x] ^ sbox[xstar]) == ydiff ) {
+                    count++;
+                }
             }
         }
     }
