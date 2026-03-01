@@ -5,6 +5,10 @@ using namespace std;
 
 const int CHECKEDBYTES = 3;
 
+string compute_digest(char* algo_name, uint8_t* data, size_t length) {      //Helper function to compute hash digest
+    
+}
+
 void search(char* openssl_name, int input_bytes, int leading_zero_bytes) {
 
     uint64_t total_inputs = 1ULL << (input_bytes*8);    //For 3 bytes, 2^24 = 16777216 and needed an unsigned long long to handle a 64-bit number
@@ -18,6 +22,8 @@ void search(char* openssl_name, int input_bytes, int leading_zero_bytes) {
             int shift_amount = (input_bytes - 1 - b) * 8;
             buffer[b] = static_cast<uint8_t>(i >> shift_amount) & 0xFF;
         }
+
+        string digest = compute_digest(openssl_name, buffer, input_bytes);
     }
 }
 
