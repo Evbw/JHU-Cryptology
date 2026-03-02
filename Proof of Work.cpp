@@ -5,11 +5,17 @@ using namespace std;
 
 const int CHECKEDBYTES = 3;
 
-string compute_digest(char* algo_name, uint8_t* data, size_t length) {      //Helper function to compute hash digest
+string compute_digest(string algo_name, uint8_t* data, size_t length) {      //Helper function to compute hash digest
+    const EVP_MD* algorithm = EVP_get_digestbyname(algo_name.c_str());
     
+    EVP_MD_CTX* workspace = EVP_MD_CTX_new();
+
+    string str;
+
+    return str;
 }
 
-void search(char* openssl_name, int input_bytes, int leading_zero_bytes) {
+void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
 
     uint64_t total_inputs = 1ULL << (input_bytes*8);    //For 3 bytes, 2^24 = 16777216 and needed an unsigned long long to handle a 64-bit number
 
@@ -32,11 +38,15 @@ int main() {
     int input_bytes = CHECKEDBYTES;
     int leading_zero_bytes = CHECKEDBYTES;
 
+    string SHA1 = "SHA1";
+    string SHA512 = "SHA512";
+    string SHA3512 = "SHA3-512";
+
     cout<<"Searching all "<<input_bytes<<"-byte strings for digests starting with "<<leading_zero_bytes<<" zero bytes";
 
-    search("SHA1", input_bytes, leading_zero_bytes);
-    search("SHA512", input_bytes, leading_zero_bytes);
-    search("SHA3-512", input_bytes, leading_zero_bytes);
+    search(SHA1, input_bytes, leading_zero_bytes);
+    search(SHA512, input_bytes, leading_zero_bytes);
+    search(SHA3512, input_bytes, leading_zero_bytes);
 
     return 0;
 }
