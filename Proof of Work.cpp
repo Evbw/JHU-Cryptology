@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <cstdint>
 #include <openssl/evp.h>    //OpenSSL's envelope hashing API
 using namespace std;
@@ -19,8 +20,12 @@ string compute_digest(string algo_name, uint8_t* data, size_t length) {      //H
 
     EVP_MD_CTX_free(workspace);
 
-    
+    ostringstream hex_builder;
+    for ( unsigned int i = 0; i < digest_length; i++ ) {
+        hex_builder << hex << 
+    }
 
+    string str;
     return str;
 }
 
