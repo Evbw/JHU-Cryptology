@@ -10,7 +10,16 @@ string compute_digest(string algo_name, uint8_t* data, size_t length) {      //H
     
     EVP_MD_CTX* workspace = EVP_MD_CTX_new();
 
-    string str;
+    unsigned char digest[EVP_MAX_MD_SIZE];
+    unsigned int digest_length = 0;
+
+    EVP_DigestInit_ex(workspace, algorithm, nullptr);       //Initalize
+    EVP_DigestUpdate(workspace, data, length);              //Feed data
+    EVP_DigestFinal_ex(workspace, digest, &digest_length);  //Get result
+
+    EVP_MD_CTX_free(workspace);
+
+    
 
     return str;
 }
