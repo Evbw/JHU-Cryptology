@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <cstdint>
 #include <openssl/evp.h>    //OpenSSL's envelope hashing API
@@ -22,11 +23,10 @@ string compute_digest(string algo_name, uint8_t* data, size_t length) {      //H
 
     ostringstream hex_builder;
     for ( unsigned int i = 0; i < digest_length; i++ ) {
-        hex_builder << hex << 
+        hex_builder << hex << setw(2) << setfill('0') << static_cast<int>(digest[i]);
     }
 
-    string str;
-    return str;
+    return hex_builder.str();
 }
 
 void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
