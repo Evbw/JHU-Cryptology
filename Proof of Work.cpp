@@ -30,7 +30,15 @@ string compute_digest(string algo_name, uint8_t* data, size_t length) {      //H
 }
 
 bool has_leading_zeroes(const string& hex_string, int num_zero_bytes) {
-    
+
+    int chars_needed = num_zero_bytes * 2;
+
+    for ( int i = 0; i < chars_needed; i++ ) {
+        if ( hex_string[i] != '0') {
+            return false;
+        }
+    }
+    return true;
 }
 
 void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
