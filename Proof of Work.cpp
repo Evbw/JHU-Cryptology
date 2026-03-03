@@ -29,6 +29,10 @@ string compute_digest(string algo_name, uint8_t* data, size_t length) {      //H
     return hex_builder.str();
 }
 
+bool has_leading_zeroes(const string& hex_string, int num_zero_bytes) {
+    
+}
+
 void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
 
     uint64_t total_inputs = 1ULL << (input_bytes*8);    //For 3 bytes, 2^24 = 16777216 and needed an unsigned long long to handle a 64-bit number
@@ -44,6 +48,10 @@ void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
         }
 
         string digest = compute_digest(openssl_name, buffer, input_bytes);
+
+        if ( has_leading_zeroes(digest, leading_zero_bytes) ) {
+
+        }
     }
 }
 
