@@ -41,12 +41,10 @@ bool has_leading_zeroes(const string& hex_string, int num_zero_bytes) {
     return true;
 }
 
-void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
+void search(string openssl_name, string& message, int leading_zero_bytes) {
 
-    uint64_t total_inputs = 1ULL << (input_bytes*8);    //For 3 bytes, 2^24 = 16777216 and needed an unsigned long long to handle a 64-bit number
-
-    int count = 0;
-    uint8_t buffer[8] = {};                             //Buffer to hold input bytes
+    uint8_t buffer[256] = {};                             //Buffer to hold input bytes
+    
 
     for ( uint64_t i = 0; i < total_inputs; i++ ) {
 
@@ -77,9 +75,9 @@ int main() {
     string SHA3512 = "SHA3-512";
     int leading_zero_bytes = CHECKEDBYTES;
 
-    cout<<"Searching for shortest byte to append to \""<<section<<"\" so SHA3-512 starts with 00000000:";
+    cout<<"Searching for shortest by    te to append to \""<<section<<"\" so SHA3-512 starts with 00000000:";
 
-    search(SHA3512, input_bytes, leading_zero_bytes);
+    search(SHA3512, section, leading_zero_bytes);
 
     cout<<"Done."<<endl;
     return 0;
