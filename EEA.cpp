@@ -3,7 +3,18 @@
 using namespace std;
 
 long long eea(long long a, long long b) {
-    
+    long long a0 = a;
+    long long b0 = b;
+    long long t0 = 0;
+    long long t = 1;
+    long long s0 = 1;
+    long long s = 0;
+    long long q = a0/b0;
+    long long r = a0-q*b0;
+
+    while ( r > 0 ) {
+        
+    }
 }
 
 int main() {
