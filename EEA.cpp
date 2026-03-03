@@ -47,7 +47,7 @@ int main() {
     cout<<endl<<"gcd("<<a<<", "<<b<<") = "<<r<<endl;
     cout<<"s = "<<s<<endl;
     cout<<"t = "<<t<<endl;
-    if ( ((s * a) + (t * b)) == 1 )  {
+    if ( ((s * a) + (t * b)) == r )  {
         cout<<s<<" * "<<a<<" + "<<t<<" * "<<b<<" = "<<(s * a) + (t * b)<<endl;
         cout<<"Result is valid."<<endl;
     }
