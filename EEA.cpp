@@ -2,6 +2,10 @@
 #include <cmath>
 using namespace std;
 
+long long eea(long long a, long long b) {
+    
+}
+
 int main() {
     
     long long a, b, x;
@@ -16,5 +20,5 @@ int main() {
     cout<<"Enter a value for b: "<<endl;
     cin>>b;
 
-        
+    eea(a, b);
 }
