@@ -5,7 +5,7 @@
 #include <openssl/evp.h>    //OpenSSL's envelope hashing API
 using namespace std;
 
-const int CHECKEDBYTES = 3;
+const int CHECKEDBYTES = 4;
 
 string compute_digest(string algo_name, uint8_t* data, size_t length) {      //Helper function to compute hash digest
     const EVP_MD* algorithm = EVP_get_digestbyname(algo_name.c_str());
@@ -73,17 +73,12 @@ void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
 
 int main() {
 
-    int input_bytes = CHECKEDBYTES;
+    string section = "JHU695641";
+    string SHA3512 = "SHA3-512";
     int leading_zero_bytes = CHECKEDBYTES;
 
-    string SHA1 = "SHA1";
-    string SHA512 = "SHA512";
-    string SHA3512 = "SHA3-512";
+    cout<<"Searching for shortest byte to append to \""<<section<<"\" so SHA3-512 starts with 00000000:";
 
-    cout<<"Searching all "<<input_bytes<<"-byte strings for digests starting with "<<leading_zero_bytes<<" zero bytes";
-
-    search(SHA1, input_bytes, leading_zero_bytes);
-    search(SHA512, input_bytes, leading_zero_bytes);
     search(SHA3512, input_bytes, leading_zero_bytes);
 
     cout<<"Done."<<endl;
