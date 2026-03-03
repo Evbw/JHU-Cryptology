@@ -6,6 +6,7 @@
 using namespace std;
 
 const int CHECKEDBYTES = 4;
+const int MAXSUFFIXLENGTH = 8;
 
 string compute_digest(string algo_name, uint8_t* data, size_t length) {      //Helper function to compute hash digest
     const EVP_MD* algorithm = EVP_get_digestbyname(algo_name.c_str());
@@ -44,13 +45,16 @@ bool has_leading_zeroes(const string& hex_string, int num_zero_bytes) {
 void search(string openssl_name, string& message, int leading_zero_bytes) {
 
     uint8_t buffer[256] = {};                             //Buffer to hold input bytes
-    
 
-    for ( uint64_t i = 0; i < total_inputs; i++ ) {
+    for ( int suffix_length = 1; suffix_length < MAXSUFFIXLENGTH; suffix_length++ ) {
 
-        for ( int b = 0; b < input_bytes; b++ ) {
-            int shift_amount = (input_bytes - 1 - b) * 8;
-            buffer[b] = static_cast<uint8_t>(i >> shift_amount) & 0xFF;
+        uint64_t total = 1ULL << (suffix_length * 8 );
+        
+        for ( uint64_t i = 0; i < total; i++ ) {
+            for ( int b = 0; b < suffix_length; b++ ) {
+                int shift_amount = (suffix_length - 1 - b) * 8;
+                buffer[message.siz() + b] = static_cast<uint8_t>(i >> shift_amount) & 0xFF;
+            }
         }
 
         string digest = compute_digest(openssl_name, buffer, input_bytes);
@@ -75,7 +79,7 @@ int main() {
     string SHA3512 = "SHA3-512";
     int leading_zero_bytes = CHECKEDBYTES;
 
-    cout<<"Searching for shortest by    te to append to \""<<section<<"\" so SHA3-512 starts with 00000000:";
+    cout<<"Searching for shortest byte to append to \""<<section<<"\" so SHA3-512 starts with 00000000:";
 
     search(SHA3512, section, leading_zero_bytes);
 
