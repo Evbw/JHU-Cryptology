@@ -53,24 +53,24 @@ void search(string openssl_name, string& message, int leading_zero_bytes) {
         for ( uint64_t i = 0; i < total; i++ ) {
             for ( int b = 0; b < suffix_length; b++ ) {
                 int shift_amount = (suffix_length - 1 - b) * 8;
-                buffer[message.siz() + b] = static_cast<uint8_t>(i >> shift_amount) & 0xFF;
+                buffer[message.size() + b] = static_cast<uint8_t>(i >> shift_amount) & 0xFF;
             }
-        }
-
-        string digest = compute_digest(openssl_name, buffer, input_bytes);
-
-        if ( has_leading_zeroes(digest, leading_zero_bytes) ) {
-            cout<<endl<<openssl_name<<" Input: ";
-            for ( int b = 0; b < input_bytes; b++ ) {
-                cout<<hex<<setw(2)<<setfill('0')<<static_cast<int>(buffer[b]);
+            string digest = compute_digest(openssl_name, buffer, message.size() + suffix_length);
+            if ( has_leading_zeroes(digest, leading_zero_bytes) ) {
+                cout<<endl<<"Found: "<<endl;
+                cout<<"Suffix ("<<suffix_length<<" bytes):";
+                for ( int b = 0; b < suffix_length; b++ ) {
+                    cout<<hex<<setw(2)<<setfill('0')<<static_cast<int>(buffer[message.size() + b]);
+                }
+                cout<<endl<<"Full input: "<<message<<endl;
+                for ( int b = 0; b < suffix_length; b++ ) {
+                    cout<<hex<<setw(2)<<setfill('0')<<static_cast<int>(buffer[message.size() + b]);
+                }
+                cout<<endl<<"Digest: "<<digest<<endl;
+                return;
             }
-            cout<<endl;
-            cout<<"Digest: "<<digest<<endl;
-            count++;
+         }
         }
-    }
-
-    cout<<"Total found for "<<openssl_name<<": "<<dec<<count<<endl;
 }
 
 int main() {
