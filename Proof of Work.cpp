@@ -58,17 +58,17 @@ void search(string openssl_name, int input_bytes, int leading_zero_bytes) {
         string digest = compute_digest(openssl_name, buffer, input_bytes);
 
         if ( has_leading_zeroes(digest, leading_zero_bytes) ) {
-            cout<<endl<<"Input: ";
+            cout<<endl<<openssl_name<<" Input: ";
             for ( int b = 0; b < input_bytes; b++ ) {
                 cout<<hex<<setw(2)<<setfill('0')<<static_cast<int>(buffer[b]);
             }
             cout<<endl;
-            cout<<" Digest: "<<digest<<endl;
+            cout<<"Digest: "<<digest<<endl;
             count++;
         }
     }
 
-    cout<<"Total found: "<<dec<<count<<endl;
+    cout<<"Total found for "<<openssl_name<<": "<<dec<<count<<endl;
 }
 
 int main() {
@@ -86,7 +86,6 @@ int main() {
     search(SHA512, input_bytes, leading_zero_bytes);
     search(SHA3512, input_bytes, leading_zero_bytes);
 
-    cout<<"Done"<<endl;
-
+    cout<<"Done."<<endl;
     return 0;
 }
