@@ -2,9 +2,9 @@
 #include <vector>
 using namespace std;
 
-unsigned long long sam(unsigned long long x, unsigned long long c, unsigned long long n, unsigned long long z) {
+unsigned long long sam(unsigned long long c, unsigned long long x, unsigned long long n, unsigned long long z) {
     vector<int> bits;
-    unsigned long long temp = c;
+    unsigned long long temp = x;
 
     while ( temp > 0 ) {
         bits.push_back(temp % 2);
@@ -16,7 +16,7 @@ unsigned long long sam(unsigned long long x, unsigned long long c, unsigned long
     for ( int i = l - 1; i >= 0; i-- ) {
         z = z * z % n;
         if ( bits[i] == 1 ) {
-            z = z * x % n;
+            z = z * c % n;
         }
     }
 
@@ -24,7 +24,7 @@ unsigned long long sam(unsigned long long x, unsigned long long c, unsigned long
 }
 
 int main() {
-    unsigned long long x, c, n, z = 1;
+    unsigned long long c, x, n, z = 1;
 
     cout<<"Enter a value for base c: "<<endl;
     cin>>c;
@@ -33,5 +33,8 @@ int main() {
     cout<<"Enter a value for mod n: "<<endl;
     cin>>n;
 
-    z = sam(x, c, n, z);
+    z = sam(c, x, n, z);
+
+    cout<<c<<" ^ "<<x<<" mod "<<n<<" = "<<z<<endl;
+    return 0;
 }
