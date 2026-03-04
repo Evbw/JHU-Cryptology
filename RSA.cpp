@@ -129,7 +129,14 @@ int main() {
             for ( int i = 0; i < static_cast<int>(message.length()); i += 3 ) {
                 long long m = encode_block(message[i], message[i+1], message[i+2]);
                 unsigned long long c = encrypt(m, e, n);
+                ciphertext.push_back(c);
             }
+
+            cout<<"Full ciphertext:"<<endl;
+            for ( int i = 0; i < ciphertext.size(); i++ ) {
+                cout<<ciphertext[i];
+            }
+            cout<<endl;
         }
 
         if ( choice == 0 || choice > 2 || choice < -1 ) {
