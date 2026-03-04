@@ -153,15 +153,18 @@ int main() {
             cout<<endl;
         }
 
-        else if ( choice == 2 )  {                                  //Dencryption routine 
+        else if ( choice == 2 )  {                                  //Decryption routine 
             string plaintext = "";
             unsigned long long c;
-            cout<<"Please enter the ciphertext:"<<endl;
+            cout<<"Please enter the ciphertext in 3 character blocks separated by a space:"<<endl;
             while ( cin >> c ) {
                 unsigned long long m = decrypt(c, d, n);
                 string block = decode_block(m);
+                cout<<block<<endl;
                 plaintext += block;
+                cout<<plaintext<<endl;
             }
+            cin.clear();
             cout<<"Decrypted message:"<<plaintext<<endl;
         }
 
