@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 unsigned long long sam(unsigned long long c, unsigned long long x, unsigned long long n, unsigned long long z) {
@@ -66,7 +67,17 @@ long long mod_inverse(long long totient, long long e) {
 }
 
 long long encode_block(char c1, char c2, char c3) {
+    int v1 = toupper(c1) - 'A';
+    int v2 = toupper(c2) - 'A';
+    int v3 = toupper(c3) - 'A';
+    v1 *= 676;                          //676 = 26^2
+    v2 *= 26;
+    long long result = v1 + v2 + v3;
+    return result;
+}
 
+unsigned long long encrypt(unsigned long long m, unsigned long long e, unsigned long long n) {
+    return sam(m, e, n, 1);
 }
 
 //Note that much of this code is refactored from an assignment I did as a team in Assembly for prerequisite class
@@ -117,6 +128,7 @@ int main() {
 
             for ( int i = 0; i < static_cast<int>(message.length()); i += 3 ) {
                 long long m = encode_block(message[i], message[i+1], message[i+2]);
+                unsigned long long c = encrypt(m, e, n);
             }
         }
 
