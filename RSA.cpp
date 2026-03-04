@@ -65,6 +65,10 @@ long long mod_inverse(long long totient, long long e) {
     return t;
 }
 
+long long encode_block(char c1, char c2, char c3) {
+
+}
+
 //Note that much of this code is refactored from an assignment I did as a team in Assembly for prerequisite class
 //https://github.com/Evbw/RSATeam2/blob/master/RSA.s
 int main() {
@@ -84,4 +88,43 @@ int main() {
     cin>>e;
     
     long long d = mod_inverse(totient, e);
+    if ( d == -1 ) {
+        cout<<"Invalid value. Exiting."<<endl;
+        return 1;
+    }
+
+    cout<<"Public key: (e, n) = ("<<e<<", "<<n<<")"<<endl;
+    cout<<"Private key: (d, n) = ("<<d<<", "<<n<<")"<<endl;
+
+    int choice = 0;
+    while ( choice != -1 ) {
+        cout<<"Choose an option:"<<endl;
+        cout<<"1 - Encrypt a message (base-26 blocks)"<<endl;
+        cout<<"2 - Decrypt a message (base-26 blocks)"<<endl;
+        cout<<"-1 Exit"<<endl;
+        cin>>choice;
+
+        if ( choice == 1 ) {
+            string message;
+            cout<<"Enter a message (letters only)"<<endl;
+            cin>>message;
+
+            while ( message.length() % 3 != 0 ) {       //Pad the message
+                message += 'A';
+            }
+
+            vector<unsigned long long>ciphertext;
+
+            for ( int i = 0; i < static_cast<int>(message.length()); i += 3 ) {
+                long long m = encode_block(message[i], message[i+1], message[i+2]);
+            }
+        }
+
+        if ( choice == 0 || choice > 2 || choice < -1 ) {
+            continue;
+        }
+
+    }
+
+    return 0;
 }
