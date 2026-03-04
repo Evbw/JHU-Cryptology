@@ -149,6 +149,9 @@ int main() {
             cout<<"Full ciphertext:"<<endl;
             for ( int i = 0; i < ciphertext.size(); i++ ) {
                 cout<<ciphertext[i];
+                if ( i < ciphertext.size() - 1 ) {
+                    cout<< " ";
+                }
             }
             cout<<endl;
         }
@@ -156,19 +159,19 @@ int main() {
         else if ( choice == 2 )  {                                  //Decryption routine 
             string plaintext = "";
             unsigned long long c;
-            cout<<"Please enter the ciphertext in 3 character blocks separated by a space:"<<endl;
+            cout<<"Please enter the ciphertext in blocks separated by a space. Enter a non-number when finished:"<<endl;
             while ( cin >> c ) {
                 unsigned long long m = decrypt(c, d, n);
                 string block = decode_block(m);
-                cout<<block<<endl;
                 plaintext += block;
-                cout<<plaintext<<endl;
             }
             cin.clear();
+            cin.ignore(1000, '\n');
             cout<<"Decrypted message:"<<plaintext<<endl;
         }
 
         if ( choice == 0 || choice > 2 || choice < -1 ) {
+            cout<<"Invalid input. Please try again"<<endl;
             continue;
         }
 
