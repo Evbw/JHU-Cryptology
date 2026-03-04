@@ -76,6 +76,11 @@ long long encode_block(char c1, char c2, char c3) {
     return result;
 }
 
+string decode_block(long long value) {
+    string result;
+    return result;
+}
+
 unsigned long long encrypt(unsigned long long m, unsigned long long e, unsigned long long n) {
     return sam(m, e, n, 1);
 }
@@ -149,6 +154,7 @@ int main() {
             cout<<"Please enter the ciphertext:"<<endl;
             while ( cin >> c ) {
                 unsigned long long m = decrypt(c, d, n);
+                string block = decode_block(m);
             }
             
         }
