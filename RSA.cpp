@@ -51,6 +51,20 @@ long long eea(long long a, long long b, long long &s, long long &t) {
     return r;
 }
 
+//Note that much of this code is refactored from an assignment I did as a team in Assembly for prerequisite class
+//https://github.com/Evbw/RSATeam2/blob/master/RSA.s
 int main() {
+
+    long long p = 853;
+    long long q = 223;
+    long long n = (p*q);
+    long long totient = (p-1)*(q-1);
+    long long e;
+
+    cout<<endl<<"The value for p and q are 853 and 223, respectively."<<endl;
+    cout<<"n = p * q = "<<n<<endl;
+    cout<<"phi(n) = (p - 1) * (q - 1) = "<<totient<<endl;
+
+    cout
     
 }
