@@ -12,7 +12,7 @@ long long mod_inverse(long long a, long long b) {
     long long temp;
 
     while ( r > 0 ) {
-        temp = ((t0-q*t)%a+a);
+        temp = ((t0-q*t)%a+a) % a;
         t0 = t;
         t = temp;
         a0 = b0;
@@ -22,7 +22,7 @@ long long mod_inverse(long long a, long long b) {
     }
 
     if ( b0 != 1 ) {
-        cout<<b<<" has no irreversible modulo "<<a<<"."<<endl;
+        cout<<b<<" has no inverse modulo "<<a<<"."<<endl;
         return -1;
     }
     
@@ -30,7 +30,7 @@ long long mod_inverse(long long a, long long b) {
 }
 
 int main() {
-    vector<long long> a = {29683, 14495, 136776};
+    vector<long long> a = {29683, 144995, 136776};
     vector<long long> m = {163659, 146921, 193331};
 
     int k = a.size();
