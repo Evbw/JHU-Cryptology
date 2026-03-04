@@ -22,7 +22,7 @@ long long mod_inverse(long long a, long long b) {
     }
 
     if ( b0 != 1 ) {
-        cout<<b<<" has no irreversible modulo "<<a<<"."endl;
+        cout<<b<<" has no irreversible modulo "<<a<<"."<<endl;
         return -1;
     }
     
@@ -47,13 +47,19 @@ int main() {
     for ( int i = 0; i < k; i++ ) {
         Mi = M/m[i];
         yi = mod_inverse(m[i], static_cast<long long>(Mi % m[i]));
-        term = static_cast<__int128>a[i] * (Mi % M);
+        term = static_cast<__int128>(a[i]) * (Mi % M);
         term %= M;
         term *= yi;
         term %= M;
         x = (x + term) % M;
     }
 
+    long long result = static_cast<long long>(x);
+    cout<<"x = "<<result<<endl;
+
+    for ( int i = 0; i < k; i ++ ) {
+        cout<<result<<" mod "<<m[i]<<" = "<<result%m[i]<<endl;
+    }
 
     return 0;
 }
