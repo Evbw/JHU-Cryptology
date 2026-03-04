@@ -80,6 +80,10 @@ unsigned long long encrypt(unsigned long long m, unsigned long long e, unsigned 
     return sam(m, e, n, 1);
 }
 
+unsigned long long decrypt(unsigned long long c, unsigned long long d, unsigned long long n) {
+    return sam(c, d, n, 1);
+}
+
 //Note that much of this code is refactored from an assignment I did as a team in Assembly for prerequisite class
 //https://github.com/Evbw/RSATeam2/blob/master/RSA.s
 int main() {
@@ -115,12 +119,12 @@ int main() {
         cout<<"-1 Exit"<<endl;
         cin>>choice;
 
-        if ( choice == 1 ) {
+        if ( choice == 1 ) {                                        //Encryption routine
             string message;
             cout<<"Enter a message (letters only)"<<endl;
             cin>>message;
 
-            while ( message.length() % 3 != 0 ) {       //Pad the message
+            while ( message.length() % 3 != 0 ) {                   //Pad the message if necessary
                 message += 'A';
             }
 
@@ -137,6 +141,16 @@ int main() {
                 cout<<ciphertext[i];
             }
             cout<<endl;
+        }
+
+        else if ( choice == 2 )  {                                  //Dencryption routine 
+            string plaintext = "";
+            unsigned long long c;
+            cout<<"Please enter the ciphertext:"<<endl;
+            while ( cin >> c ) {
+                unsigned long long m = decrypt(c, d, n);
+            }
+            
         }
 
         if ( choice == 0 || choice > 2 || choice < -1 ) {
