@@ -51,6 +51,20 @@ long long eea(long long a, long long b, long long &s, long long &t) {
     return r;
 }
 
+long long mod_inverse(long long totient, long long e) {
+    long long t = 1;
+    long long s = 0;
+    long long gcd = eea(totient, e, s, t);
+
+    if ( gcd != 1 ) {
+        cout<<"Error: e = "<<e<<" has no inverse modulo "<<totient<<"."<<endl;
+        return -1;
+    }
+
+    t = ((t%totient)+totient)%totient;
+    return t;
+}
+
 //Note that much of this code is refactored from an assignment I did as a team in Assembly for prerequisite class
 //https://github.com/Evbw/RSATeam2/blob/master/RSA.s
 int main() {
@@ -65,6 +79,9 @@ int main() {
     cout<<"n = p * q = "<<n<<endl;
     cout<<"phi(n) = (p - 1) * (q - 1) = "<<totient<<endl;
 
-    cout
+    cout<<"Enter a value for the public exponent, e"<<endl;
+    cout<<"(Value must be between 1 and "<<totient<<", and coprime to "<<totient<<"):"<<endl;
+    cin>>e;
     
+    long long d = mod_inverse(totient, e);
 }
