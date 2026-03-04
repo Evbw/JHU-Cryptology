@@ -76,8 +76,13 @@ long long encode_block(char c1, char c2, char c3) {
     return result;
 }
 
-string decode_block(long long value) {
-    string result;
+string decode_block(long long value) {  //Decode base 26 number back into 3 letters
+    string result = "   ";              //3 empty characters
+    result[2] = 'A' + (value % 26);
+    value /= 26;
+    result[1] = 'A' + (value % 26);
+    value /= 26;
+    result[0] = 'A' + (value % 26);
     return result;
 }
 
@@ -155,8 +160,9 @@ int main() {
             while ( cin >> c ) {
                 unsigned long long m = decrypt(c, d, n);
                 string block = decode_block(m);
+                plaintext += block;
             }
-            
+            cout<<"Decrypted message:"<<plaintext<<endl;
         }
 
         if ( choice == 0 || choice > 2 || choice < -1 ) {
