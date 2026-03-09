@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-string to_string_128 (unsigned __int128 val) {
+string to_string_128(unsigned __int128 val) {
     if ( val == 0 ) {
         return 0;
     }
@@ -15,7 +15,7 @@ string to_string_128 (unsigned __int128 val) {
     return s;
 }
 
-unsigned __int128 from_string_128 (const string &s) {
+unsigned __int128 from_string_128(const string &s) {
     unsigned __int128 val = 0;
     for ( char c : s ) {
         val = val * 10 + (c - '0');
@@ -42,6 +42,21 @@ unsigned __int128 sam(unsigned __int128 c, unsigned __int128 x, unsigned __int12
     }
 
     return z;
+}
+
+__int128 factor_n(__int128 n) {
+    for ( __int128 x1 = 2; x1 < 100; x1++ ) {
+        __int128 p = pollard_rho(n, x1);
+        if (p != 0 && p != n) {
+            return p;
+        }
+    }
+    return 0;
+}
+
+__int128 pollard_rho(__int128 n, __int128 x1) {
+    __int128 x;
+
 }
 
 __int128 eea(__int128 a, __int128 b, __int128 &s, __int128 &t) {
@@ -125,7 +140,7 @@ int main() {
 
     cout<<endl<<"Given public key: (b, n) = ("<<to_string_128(e)<<", "<<to_string_128(n)<<")"<<endl;
     
-    __int128 p = pollard_rho(n);
+    __int128 p = factor_n(n);
 
     cout<<"Enter a value for the public exponent, e"<<endl;
     cout<<"(Value must be between 1 and "<<to_string_128(totient)<<", and coprime to "<<to_string_128(totient)<<"):"<<endl;
