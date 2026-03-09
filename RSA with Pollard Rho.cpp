@@ -1,0 +1,207 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+string to_string_128 (unsigned __int128 val) {
+    if ( val == 0 ) {
+        return 0;
+    }
+    string s;
+    while ( val > 0 ) {
+        s = char('0' + val % 10) + s;
+        val /= 10;
+    }
+    return s;
+}
+
+unsigned __int128 from_string_128 (const string &s) {
+    unsigned __int128 val = 0;
+    for ( char c : s ) {
+        val = val * 10 + (c - '0');
+    }
+    return val;
+}
+
+unsigned __int128 sam(unsigned __int128 c, unsigned __int128 x, unsigned __int128 n, unsigned __int128 z) {
+    vector<int> bits;
+    unsigned __int128 temp = x;
+
+    while ( temp > 0 ) {
+        bits.push_back(temp % 2);
+        temp /= 2;
+    }
+
+    int l = bits.size();
+
+    for ( int i = l - 1; i >= 0; i-- ) {
+        z = z * z % n;
+        if ( bits[i] == 1 ) {
+            z = z * c % n;
+        }
+    }
+
+    return z;
+}
+
+__int128 eea(__int128 a, __int128 b, __int128 &s, __int128 &t) {
+
+    __int128 a0 = a;
+    __int128 b0 = b;
+    __int128 t0 = 0;
+    __int128 s0 = 1;
+    __int128 q = a0/b0;
+    __int128 r = a0-q*b0;
+
+    __int128 temp;
+
+    while ( r > 0 ) {
+        temp = t0-q*t;
+        t0 = t;
+        t = temp;
+        temp = s0-q*s;
+        s0 = s;
+        s = temp;
+        a0 = b0;
+        b0 = r;
+        q = a0/b0;
+        r = a0-q*b0;
+    }
+    r = b0;
+
+    return r;
+}
+
+__int128 mod_inverse(__int128 totient, __int128 e) {
+    __int128 t = 1;
+    __int128 s = 0;
+    __int128 gcd = eea(totient, e, s, t);
+
+    if ( gcd != 1 ) {
+        cout<<"Error: e = "<<to_string_128(e)<<" has no inverse modulo "<<to_string_128(totient)<<"."<<endl;
+        return -1;
+    }
+
+    t = ((t%totient)+totient)%totient;
+    return t;
+}
+
+__int128 encode_block(char c1, char c2, char c3) {
+    int v1 = toupper(c1) - 'A';
+    int v2 = toupper(c2) - 'A';
+    int v3 = toupper(c3) - 'A';
+    v1 *= 676;                          //676 = 26^2
+    v2 *= 26;
+    __int128 result = v1 + v2 + v3;
+    return result;
+}
+
+string decode_block(__int128 value) {  //Decode base 26 number back into 3 letters
+    string result = "   ";              //3 empty characters
+    result[2] = 'A' + (value % 26);
+    value /= 26;
+    result[1] = 'A' + (value % 26);
+    value /= 26;
+    result[0] = 'A' + (value % 26);
+    return result;
+}
+
+unsigned __int128 encrypt(unsigned __int128 m, unsigned __int128 e, unsigned __int128 n) {
+    return sam(m, e, n, 1);
+}
+
+unsigned __int128 decrypt(unsigned __int128 c, unsigned __int128 d, unsigned __int128 n) {
+    return sam(c, d, n, 1);
+}
+
+//Note that much of this code is refactored from an assignment I did as a team in Assembly for prerequisite class
+//https://github.com/Evbw/RSATeam2/blob/master/RSA.s
+int main() {
+
+    __int128 p = 853;
+    __int128 q = 223;
+    __int128 n = (p*q);
+    __int128 totient = (p-1)*(q-1);
+    __int128 e;
+
+    cout<<endl<<"The value for p and q are 853 and 223, respectively."<<endl;
+    cout<<"n = p * q = "<<to_string_128(n)<<endl;
+    cout<<"phi(n) = (p - 1) * (q - 1) = "<<to_string_128(totient)<<endl;
+
+    cout<<"Enter a value for the public exponent, e"<<endl;
+    cout<<"(Value must be between 1 and "<<to_string_128(totient)<<", and coprime to "<<to_string_128(totient)<<"):"<<endl;
+    string e_str;
+    cin>>e_str;
+    e = from_string_128(e_str);
+    
+    __int128 d = mod_inverse(totient, e);
+    if ( d == -1 ) {
+        cout<<"Invalid value. Exiting."<<endl;
+        return 1;
+    }
+
+    cout<<"Public key: (e, n) = ("<<to_string_128(e)<<", "<<to_string_128(n)<<")"<<endl;
+    cout<<"Private key: (d, n) = ("<<to_string_128(d)<<", "<<to_string_128(n)<<")"<<endl;
+
+    int choice = 0;
+    while ( choice != -1 ) {
+        cout<<"Choose an option:"<<endl;
+        cout<<"1 - Encrypt a message (base-26 blocks)"<<endl;
+        cout<<"2 - Decrypt a message (base-26 blocks)"<<endl;
+        cout<<"-1 Exit"<<endl;
+        cin>>choice;
+
+        if ( choice == 1 ) {                                        //Encryption routine
+            string message;
+            string mess_str;
+            cout<<"Enter a message (letters only)"<<endl;
+            cin>>mess_str;
+            message = from_string_128(message);
+
+            while ( message.length() % 3 != 0 ) {                   //Pad the message if necessary
+                message += 'A';
+            }
+
+            vector<unsigned __int128>ciphertext;
+
+            for ( int i = 0; i < static_cast<int>(message.length()); i += 3 ) {
+                __int128 m = encode_block(message[i], message[i+1], message[i+2]);
+                unsigned __int128 c = encrypt(m, e, n);
+                ciphertext.push_back(c);
+            }
+
+            cout<<"Full ciphertext:"<<endl;
+            for ( int i = 0; i < ciphertext.size(); i++ ) {
+                cout<<to_string_128(ciphertext[i]);
+                if ( i < ciphertext.size() - 1 ) {
+                    cout<< " ";
+                }
+            }
+            cout<<endl;
+        }
+
+        else if ( choice == 2 )  {                                  //Decryption routine 
+            string plaintext = "";
+            unsigned __int128 c;
+            string c_str;
+            cout<<"Please enter the ciphertext in blocks separated by a space. Enter a non-number when finished:"<<endl;
+            while ( cin >> c_str ) {
+                c = from_string_128(c_str);
+                unsigned __int128 m = decrypt(c, d, n);
+                string block = decode_block(m);
+                plaintext += block;
+            }
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout<<"Decrypted message:"<<plaintext<<endl;
+        }
+
+        if ( choice == 0 || choice > 2 || choice < -1 ) {
+            cout<<"Invalid input. Please try again"<<endl;
+            continue;
+        }
+
+    }
+
+    return 0;
+}
