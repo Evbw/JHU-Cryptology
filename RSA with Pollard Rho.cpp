@@ -118,15 +118,14 @@ unsigned __int128 decrypt(unsigned __int128 c, unsigned __int128 d, unsigned __i
 //https://github.com/Evbw/RSATeam2/blob/master/RSA.s
 int main() {
 
-    __int128 p = 853;
-    __int128 q = 223;
-    __int128 n = (p*q);
-    __int128 totient = (p-1)*(q-1);
-    __int128 e;
+    __int128 n = 4790285247827309603;
+    __int128 e = 65537;
+    __int128 p, q;
+    __int128 totient;
 
-    cout<<endl<<"The value for p and q are 853 and 223, respectively."<<endl;
-    cout<<"n = p * q = "<<to_string_128(n)<<endl;
-    cout<<"phi(n) = (p - 1) * (q - 1) = "<<to_string_128(totient)<<endl;
+    cout<<endl<<"Given public key: (b, n) = ("<<to_string_128(e)<<", "<<to_string_128(n)<<")"<<endl;
+    
+    __int128 p = pollard_rho(n);
 
     cout<<"Enter a value for the public exponent, e"<<endl;
     cout<<"(Value must be between 1 and "<<to_string_128(totient)<<", and coprime to "<<to_string_128(totient)<<"):"<<endl;
