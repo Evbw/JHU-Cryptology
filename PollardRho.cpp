@@ -1,6 +1,18 @@
 #include <iostream>
 using namespace std;
 
+string to_string_128(unsigned __int128 val) {
+    if ( val == 0 ) {
+        return 0;
+    }
+    string s;
+    while ( val > 0 ) {
+        s = char('0' + val % 10) + s;
+        val /= 10;
+    }
+    return s;
+}
+
 __int128 f(__int128 x, __int128 n) {
     return (x*x + 1) % n;
 }
@@ -47,5 +59,28 @@ __int128 factor_n(__int128 n) {
             return p;
         }
     }
+    return 0;
+}
+
+int main() {
+    __int128 n1 = 53081719;
+    __int128 n2 = 44818676050679;
+    __int128 n3 = 14690966543846720848264259950499;
+    __int128 x1 = 31;
+
+    __int128 result;
+
+    result = pollard_rho(n1, x1);
+
+    cout<<endl<<"First result is: "<<to_string_128(result)<<endl;
+
+    result = pollard_rho(n2, x1);
+
+    cout<<endl<<"Second result is: "<<to_string_128(result)<<endl;
+
+    result = pollard_rho(n3, x1);
+
+    cout<<endl<<"Second result is: "<<to_string_128(result)<<endl;
+
     return 0;
 }
