@@ -21,13 +21,34 @@ unsigned __int128 from_string_128(const string &s) {
     return val;
 }
 
+//Cribbed mulmod algorithm from https://www.geeksforgeeks.org/dsa/how-to-avoid-overflow-in-modular-multiplication/
+unsigned __int128 mulmod(unsigned __int128 a, unsigned __int128 b, unsigned __int128 mod)
+{
+    unsigned __int128 res = 0; // Initialize result
+    a = a % mod;
+    while (b > 0)
+    {
+        // If b is odd, add 'a' to result
+        if (b % 2 == 1)
+            res = (res + a) % mod;
+
+        // Multiply 'a' with 2
+        a = (a * 2) % mod;
+
+        // Divide b by 2
+        b /= 2;
+    }
+    // Return result
+    return res % mod;
+}
+
 unsigned __int128 f(unsigned __int128 x, unsigned __int128 n) {
-    return (x*x + 1) % n;
+    return (mulmod(x, x, n)+ 1) % n;
 }
 
 unsigned __int128 gcd_128(unsigned __int128 x, unsigned __int128 n) {
     while ( n != 0 ) {
-        __int128 t = n;
+        unsigned __int128 t = n;
         n = x % n;
         x = t;
     }
@@ -52,6 +73,7 @@ unsigned __int128 pollard_rho(unsigned __int128 n, unsigned __int128 x1, unsigne
             xdiff = -xdiff;
         }
         p = gcd_128(xdiff, n);
+        count++;
     }
 
     if ( p == n ) {
@@ -66,22 +88,26 @@ int main() {
     unsigned __int128 n3 = from_string_128("14690966543846720848264259950499");
     unsigned __int128 x1 = 31;
 
-    unsigned __int128 result;
-    unsigned __int128 count;
+    unsigned __int128 p;
+    unsigned __int128 q;
+    unsigned __int128 count = 1;    //Starting the count at 1 for the start of the differential loop
 
-    result = pollard_rho(n1, x1, count);
+    p = pollard_rho(n1, x1, count);
+    q = n1/p;
 
-    cout<<endl<<"First result is: "<<to_string_128(result)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
-    count = 0;
+    cout<<endl<<"First result is p = "<<to_string_128(p)<<", q = "<<to_string_128(q)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
+    count = 1;
 
-    result = pollard_rho(n2, x1, count);
+    p = pollard_rho(n2, x1, count);
+    q = n2/p;
 
-    cout<<endl<<"Second result is: "<<to_string_128(result)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
-    count = 0;
+    cout<<endl<<"Second result is p = "<<to_string_128(p)<<", q = "<<to_string_128(q)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
+    count = 1;
 
-    result = pollard_rho(n3, x1, count);
+    p = pollard_rho(n3, x1, count);
+    q = n3/p;
 
-    cout<<endl<<"Second result is: "<<to_string_128(result)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
+    cout<<endl<<"Third result is p = "<<to_string_128(p)<<", q = "<<to_string_128(q)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
 
     return 0;
 }
