@@ -13,11 +13,19 @@ string to_string_128(unsigned __int128 val) {
     return s;
 }
 
-__int128 f(__int128 x, __int128 n) {
+unsigned __int128 from_string_128(const string &s) {
+    unsigned __int128 val = 0;
+    for ( char c : s ) {
+        val = val * 10 + (c - '0');
+    }
+    return val;
+}
+
+unsigned __int128 f(unsigned __int128 x, unsigned __int128 n) {
     return (x*x + 1) % n;
 }
 
-__int128 gcd_128(__int128 x, __int128 n) {
+unsigned __int128 gcd_128(unsigned __int128 x, unsigned __int128 n) {
     while ( n != 0 ) {
         __int128 t = n;
         n = x % n;
@@ -26,7 +34,7 @@ __int128 gcd_128(__int128 x, __int128 n) {
     return x;
 }
 
-__int128 pollard_rho(__int128 n, __int128 x1) {
+unsigned __int128 pollard_rho(unsigned __int128 n, unsigned __int128 x1, unsigned __int128 &count) {
     __int128 x = x1;
     __int128 xp = f(x, n);
     __int128 xdiff = x - xp;
@@ -52,35 +60,28 @@ __int128 pollard_rho(__int128 n, __int128 x1) {
     return p;
 }
 
-__int128 factor_n(__int128 n) {
-    for ( __int128 x1 = 2; x1 < 100; x1++ ) {
-        __int128 p = pollard_rho(n, x1);
-        if (p != 0 && p != n) {
-            return p;
-        }
-    }
-    return 0;
-}
-
 int main() {
-    __int128 n1 = 53081719;
-    __int128 n2 = 44818676050679;
-    __int128 n3 = 14690966543846720848264259950499;
-    __int128 x1 = 31;
+    unsigned __int128 n1 = 53081719;
+    unsigned __int128 n2 = 44818676050679;
+    unsigned __int128 n3 = from_string_128("14690966543846720848264259950499");
+    unsigned __int128 x1 = 31;
 
-    __int128 result;
+    unsigned __int128 result;
+    unsigned __int128 count;
 
-    result = pollard_rho(n1, x1);
+    result = pollard_rho(n1, x1, count);
 
-    cout<<endl<<"First result is: "<<to_string_128(result)<<endl;
+    cout<<endl<<"First result is: "<<to_string_128(result)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
+    count = 0;
 
-    result = pollard_rho(n2, x1);
+    result = pollard_rho(n2, x1, count);
 
-    cout<<endl<<"Second result is: "<<to_string_128(result)<<endl;
+    cout<<endl<<"Second result is: "<<to_string_128(result)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
+    count = 0;
 
-    result = pollard_rho(n3, x1);
+    result = pollard_rho(n3, x1, count);
 
-    cout<<endl<<"Second result is: "<<to_string_128(result)<<endl;
+    cout<<endl<<"Second result is: "<<to_string_128(result)<<" and it took "<<to_string_128(count)<<" iterations"<<endl;
 
     return 0;
 }
