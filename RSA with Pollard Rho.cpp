@@ -69,18 +69,22 @@ __int128 gcd_128(__int128 x, __int128 n) {
 
 __int128 pollard_rho(__int128 n, __int128 x1) {
     __int128 x = x1;
-    __int128 xp = f(x);
+    __int128 xp = f(x, n);
     __int128 xdiff = x - x1;
-    __int128 p = gcd_128(xdiff, n)
+    __int128 p = gcd_128(xdiff, n);
 
     while ( p == 1 ) {
-        x = f(x);
-        xp = f(xp);
-        xp = f(xp);
-        xiff = x - xp;
+        x = f(x, n);
+        xp = f(xp, n);
+        xp = f(xp, n);
+        xdiff = x - xp;
         p = gcd_128(xdiff, n);
     }
 
+    if ( p == n ) {
+        return 0;
+    }
+    return p;
 }
 
 __int128 eea(__int128 a, __int128 b, __int128 &s, __int128 &t) {
