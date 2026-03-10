@@ -45,16 +45,6 @@ unsigned __int128 sam(unsigned __int128 c, unsigned __int128 x, unsigned __int12
     return z;
 }
 
-__int128 factor_n(__int128 n) {
-    for ( __int128 x1 = 2; x1 < 100; x1++ ) {
-        __int128 p = pollard_rho(n, x1);
-        if (p != 0 && p != n) {
-            return p;
-        }
-    }
-    return 0;
-}
-
 __int128 f(__int128 x, __int128 n) {
     return (x*x + 1) % n;
 }
@@ -86,6 +76,16 @@ __int128 pollard_rho(__int128 n, __int128 x1) {
         return 0;
     }
     return p;
+}
+
+__int128 factor_n(__int128 n) {
+    for ( __int128 x1 = 2; x1 < 100; x1++ ) {
+        __int128 p = pollard_rho(n, x1);
+        if (p != 0 && p != n) {
+            return p;
+        }
+    }
+    return 0;
 }
 
 __int128 eea(__int128 a, __int128 b, __int128 &s, __int128 &t) {
@@ -170,8 +170,8 @@ int main() {
     cout<<endl<<"This is an program that uses a fixed public key to encode/decode using RSA."<<endl;
     cout<<"Given public key: (b, n) = ("<<to_string_128(e)<<", "<<to_string_128(n)<<")"<<endl;
     
-    __int128 p = factor_n(n);
-    __int128 q = n / p;
+    p = factor_n(n);
+    q = n / p;
     totient = (p - 1)*(q - 1);
     
     __int128 d = mod_inverse(totient, e);
@@ -240,6 +240,22 @@ int main() {
             cin>>filename;
 
             ifstream infile(filename);
+            while ( !infile.is_open()) {
+                cout<<"Error reading file. Please reenter file path:"<<endl;
+                cin>>filename;
+            }
+
+            string plaintext = "";
+            string token;
+            string block;
+            __int128 c;
+            __int128 m; 
+            while ( infile >> token ) {
+                c = from_string_128(token);
+                m = decrypt(c, d, n);
+                block = decode_block(m);
+                plaintext += block;
+            }
         }
 
         if ( choice == 0 || choice > 3 || choice < -1 ) {
