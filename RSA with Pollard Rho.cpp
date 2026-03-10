@@ -58,9 +58,28 @@ __int128 f(__int128 x, __int128 n) {
     return (x*x + 1) % n;
 }
 
+__int128 gcd_128(__int128 x, __int128 n) {
+    while ( n != 0 ) {
+        __int128 t = n;
+        n = x % n;
+        x = t;
+    }
+    return x;
+}
+
 __int128 pollard_rho(__int128 n, __int128 x1) {
     __int128 x = x1;
     __int128 xp = f(x);
+    __int128 xdiff = x - x1;
+    __int128 p = gcd_128(xdiff, n)
+
+    while ( p == 1 ) {
+        x = f(x);
+        xp = f(xp);
+        xp = f(xp);
+        xiff = x - xp;
+        p = gcd_128(xdiff, n);
+    }
 
 }
 
