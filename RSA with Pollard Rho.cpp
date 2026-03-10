@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 using namespace std;
 
 string to_string_128(unsigned __int128 val) {
@@ -166,15 +167,12 @@ int main() {
     __int128 p, q;
     __int128 totient;
 
-    cout<<endl<<"Given public key: (b, n) = ("<<to_string_128(e)<<", "<<to_string_128(n)<<")"<<endl;
+    cout<<endl<<"This is an program that uses a fixed public key to encode/decode using RSA."<<endl;
+    cout<<"Given public key: (b, n) = ("<<to_string_128(e)<<", "<<to_string_128(n)<<")"<<endl;
     
     __int128 p = factor_n(n);
-
-    cout<<"Enter a value for the public exponent, e"<<endl;
-    cout<<"(Value must be between 1 and "<<to_string_128(totient)<<", and coprime to "<<to_string_128(totient)<<"):"<<endl;
-    string e_str;
-    cin>>e_str;
-    e = from_string_128(e_str);
+    __int128 q = n / p;
+    totient = (p - 1)*(q - 1);
     
     __int128 d = mod_inverse(totient, e);
     if ( d == -1 ) {
@@ -182,14 +180,12 @@ int main() {
         return 1;
     }
 
-    cout<<"Public key: (e, n) = ("<<to_string_128(e)<<", "<<to_string_128(n)<<")"<<endl;
-    cout<<"Private key: (d, n) = ("<<to_string_128(d)<<", "<<to_string_128(n)<<")"<<endl;
-
     int choice = 0;
     while ( choice != -1 ) {
         cout<<"Choose an option:"<<endl;
         cout<<"1 - Encrypt a message (base-26 blocks)"<<endl;
         cout<<"2 - Decrypt a message (base-26 blocks)"<<endl;
+        cout<<"3 - Decrypt from file (base-26 blocks)"<<endl;
         cout<<"-1 Exit"<<endl;
         cin>>choice;
 
@@ -222,7 +218,7 @@ int main() {
             cout<<endl;
         }
 
-        else if ( choice == 2 )  {                                  //Decryption routine 
+        else if ( choice == 2 ) {                                  //Decryption routine 
             string plaintext = "";
             unsigned __int128 c;
             string c_str;
@@ -238,7 +234,15 @@ int main() {
             cout<<"Decrypted message:"<<plaintext<<endl;
         }
 
-        if ( choice == 0 || choice > 2 || choice < -1 ) {
+        else if ( choice == 3 ) {
+            string filename;
+            cout<<"Enter path to encrypted file:"<<endl;
+            cin>>filename;
+
+            ifstream infile(filename);
+        }
+
+        if ( choice == 0 || choice > 3 || choice < -1 ) {
             cout<<"Invalid input. Please try again"<<endl;
             continue;
         }
