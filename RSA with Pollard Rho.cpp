@@ -54,8 +54,13 @@ __int128 factor_n(__int128 n) {
     return 0;
 }
 
+__int128 f(__int128 x, __int128 n) {
+    return (x*x + 1) % n;
+}
+
 __int128 pollard_rho(__int128 n, __int128 x1) {
-    __int128 x;
+    __int128 x = x1;
+    __int128 xp = f(x);
 
 }
 
