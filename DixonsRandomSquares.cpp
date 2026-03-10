@@ -82,6 +82,22 @@ int main() {
                     gb = ga % gb;
                     ga = t;
                 }
+                int factor1 = ga;
+
+                ga = sum;
+                gb = n;
+
+                while ( gb != 0 ) {
+                    t = gb;
+                    gb = ga % gb;
+                    ga = t;
+                }
+                int factor2 = ga;
+
+                cout<<"gcd(x-y, n) = "<<factor1<<endl;
+                cout<<"gcd(x+y, n) = "<<factor2<<endl;
+
+                cout<<"n = "<<n<<" = "<<(factor1*factor2)<<" x = "<<factor1<<" y = "<<factor2<<endl;
             }
         }
     }
