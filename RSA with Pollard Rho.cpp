@@ -61,7 +61,10 @@ __int128 gcd_128(__int128 x, __int128 n) {
 __int128 pollard_rho(__int128 n, __int128 x1) {
     __int128 x = x1;
     __int128 xp = f(x, n);
-    __int128 xdiff = x - x1;
+    __int128 xdiff = x - xp;
+    if ( xdiff < 0 ) {
+        xdiff = -xdiff;
+    }
     __int128 p = gcd_128(xdiff, n);
 
     while ( p == 1 ) {
@@ -69,6 +72,9 @@ __int128 pollard_rho(__int128 n, __int128 x1) {
         xp = f(xp, n);
         xp = f(xp, n);
         xdiff = x - xp;
+        if ( xdiff < 0 ) {
+            xdiff = -xdiff;
+        }
         p = gcd_128(xdiff, n);
     }
 
@@ -191,10 +197,8 @@ int main() {
 
         if ( choice == 1 ) {                                        //Encryption routine
             string message;
-            string mess_str;
             cout<<"Enter a message (letters only)"<<endl;
-            cin>>mess_str;
-            message = from_string_128(message);
+            cin>>message;
 
             while ( message.length() % 3 != 0 ) {                   //Pad the message if necessary
                 message += 'A';
@@ -256,6 +260,8 @@ int main() {
                 block = decode_block(m);
                 plaintext += block;
             }
+            infile.close();
+            cout<<"Decrypted message: "<<plaintext<<endl;
         }
 
         if ( choice == 0 || choice > 3 || choice < -1 ) {
