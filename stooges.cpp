@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 using namespace std;
 
 long long eea(long long a, long long b, long long &s, long long &t) {
@@ -57,12 +58,12 @@ long long mod_inverse(long long a, long long b) {
     return t;
 }
 
-int crt(vector<long long> a, vector<long long> m) {
+long long crt(vector<long long> a, vector<long long> m) {
 
-    int k = a.size();
+    long long k = a.size();
 
     __int128 M = 1;
-    for ( int i = 0; i < k; i++ ) {
+    for ( long long i = 0; i < k; i++ ) {
         M *= m[i];
     }
 
@@ -70,7 +71,7 @@ int crt(vector<long long> a, vector<long long> m) {
     __int128 Mi = 0;
     __int128 term = 0;
     long long yi = 0;
-    for ( int i = 0; i < k; i++ ) {
+    for ( long long i = 0; i < k; i++ ) {
         Mi = M/m[i];
         yi = mod_inverse(m[i], static_cast<long long>(Mi % m[i]));
         term = static_cast<__int128>(a[i]) * (Mi % M);
@@ -83,14 +84,24 @@ int crt(vector<long long> a, vector<long long> m) {
     return x;
 }
 
+long long cube_root(__int128 n) {
+
+}
+
 int main() {
 
-    long long result = static_cast<long long>(x);
-    cout<<"x = "<<result<<endl;
+    vector<long long> n = {25777, 22879, 66277};
+    vector<long long> c1 = {19052, 4546, 44619};
+    vector<long long> c2 = {1708, 11733, 19731};
 
-    for ( int i = 0; i < k; i ++ ) {
-        cout<<result<<" mod "<<m[i]<<" = "<<result%m[i]<<endl;
-    }
+    __int128 m1_cubed = crt(c1, n);
+
+    long long m1 = cube_root(m1_cubed);
+    cout<<"The first message is = "<<m1<<endl;
+
+    //for ( long long i = 0; i < k; i ++ ) {
+    //    cout<<result<<" mod "<<m[i]<<" = "<<result%m[i]<<endl;
+    //}
 
     return 0;
 }
