@@ -84,8 +84,8 @@ long long crt(vector<long long> a, vector<long long> m) {
     return x;
 }
 
-long long cube_root(__int128 n) {
-    long long lo = 0;
+long long cube_root(__int128 n) {               //Hastad's broadcast attaack
+    long long lo = 0;                           //https://en.wikipedia.org/wiki/Coppersmith%27s_attack#H.C3.A5stad.27s_broadcast_attack
     long long hi = 1;
 
     while ( hi*hi*hi < n ) {
@@ -111,6 +111,16 @@ long long cube_root(__int128 n) {
     return hi;
 }
 
+string decode_block(__int128 value) {  //Decode base 26 number back into 3 letters
+    string result = "   ";              //3 empty characters
+    result[2] = 'A' + (value % 26);
+    value /= 26;
+    result[1] = 'A' + (value % 26);
+    value /= 26;
+    result[0] = 'A' + (value % 26);
+    return result;
+}
+
 int main() {
 
     vector<long long> n = {25777, 22879, 66277};
@@ -120,7 +130,8 @@ int main() {
     __int128 m1_cubed = crt(c1, n);
 
     long long m1 = cube_root(m1_cubed);
-    cout<<"The first message is = "<<m1<<endl;
+    string block1 = decode_block(m1);
+    cout<<"The first message is = "<<block1<<endl;
 
     //for ( long long i = 0; i < k; i ++ ) {
     //    cout<<result<<" mod "<<m[i]<<" = "<<result%m[i]<<endl;
