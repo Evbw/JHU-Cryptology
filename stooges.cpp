@@ -85,7 +85,30 @@ long long crt(vector<long long> a, vector<long long> m) {
 }
 
 long long cube_root(__int128 n) {
+    long long lo = 0;
+    long long hi = 1;
 
+    while ( hi*hi*hi < n ) {
+        hi *= 2;
+    }
+
+    while ( lo <= hi ) {
+        long long mid = lo + (hi -lo) / 2;
+        __int128 cube = static_cast<__int128>(mid)*mid*mid;
+
+        if ( cube == n ) {
+            return mid;
+        }
+        else if ( cube < n ) {
+            lo = mid + 1;
+        }
+        else {
+            hi = mid - 1;
+        }
+    }
+
+    cout<<"No exact cube root found"<<endl;
+    return hi;
 }
 
 int main() {
