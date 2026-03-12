@@ -128,14 +128,15 @@ int main() {
     vector<long long> c2 = {1708, 11733, 19731};
 
     __int128 m1_cubed = crt(c1, n);
+    __int128 m2_cubed = crt(c2, n);
+
+    cout<<endl<<"This program takes hard coded values for n"<<endl;
 
     long long m1 = cube_root(m1_cubed);
+    long long m2 = cube_root(m2_cubed);
     string block1 = decode_block(m1);
-    cout<<"The first message is = "<<block1<<endl;
-
-    //for ( long long i = 0; i < k; i ++ ) {
-    //    cout<<result<<" mod "<<m[i]<<" = "<<result%m[i]<<endl;
-    //}
+    string block2 = decode_block(m2);
+    cout<<endl<<"The message is = "<<block1<<" "<<block2<<endl;
 
     return 0;
 }
