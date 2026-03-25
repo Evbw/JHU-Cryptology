@@ -1,4 +1,11 @@
-
+def decode_block(value) {               //Decode base 26 number back into 3 letters
+    c2 = 'A' + (value % 26)
+    value //= 26
+    c1 = 'A' + (value % 26)
+    value //= 26
+    c0 = 'A' + (value % 26)
+    return c0+c1+c2
+}
 
 def build_lookup_table(n, e):
     lookup = {}
@@ -26,3 +33,7 @@ def main():
     e = 65537
 
     lookup = build_lookup_table(n, e)
+
+    if block1 in lookup:
+        m = lookup[c]
+        block = decode_block(m)
