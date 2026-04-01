@@ -31,14 +31,14 @@ def main():
     alpha = 106
     beta = 12375
     x1 = shanks(p1, n, alpha, beta)
-    print(x1)
+    print(f"log_106(12375) in Z_24691* = {x1}")
 
     p2 = 458009
     n = p2-1
     alpha = 6
-    beta = 248338
+    beta = 248388
     x2 = shanks(p2, n, alpha, beta)
-    print(x2)
+    print(f"log_6(248388) in Z_458009* = {x2}")
 
 if __name__ == "__main__":
     main()
