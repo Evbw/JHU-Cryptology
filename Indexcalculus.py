@@ -1,7 +1,17 @@
 import math
 
 def factor_over_base(value, base):
-
+    powers = []
+    temp = value
+    for b in base:
+        count = 0
+        while temp % b == 0:
+            count += 1
+            temp //= b
+        powers.append(count)
+    if temp == 1:                   #Fully factored
+        return powers
+    return None                     #Anything leftover after factoring
 
 def main():
 
