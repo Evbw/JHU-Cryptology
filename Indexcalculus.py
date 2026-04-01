@@ -62,6 +62,29 @@ def main():
     print("")
     print("Part C")
     print("")
+    target = 173                #Looking for log_2(173)   
+    r = 177                     #The given "random" masking component
+    masked = (target * pow(alpha, r, p)) % p
+    print(f"173*2^{r} mod {p} = {masked}")
+
+    exps = factor_over_base(masked, factor_base)
+    if exps is not None:
+        pieces = []
+        for b,e in zip(factor_base, exps):
+            if e > 0:
+                if e > 1:
+                    pieces.append(f"{b}^{e}")
+                else:
+                    pieces.append(str(b))
+        print(f"{masked} = {' '.join(pieces)}")
+
+        rhs = sum(e*L[b] for b, e in zip(factor_base, exps))
+
+        log_target = (rhs - r) % n
+        print(f"log_2({target}) = ({rhs} - {r}) mod {n} = {log_target}")
+        check = pow(alpha, log_target, p)
+        print(f"Verifcation: 2^{log_target} mod {p} = {check}")
+
 
 if __name__ == "__main__":
     main()
