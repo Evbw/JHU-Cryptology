@@ -46,7 +46,7 @@ def read_ciphertexts(filename):
             line = line.strip()
             if line:
                 r, s = line.split(',')
-                pairs.append = ((int(r), int(s)))
+                pairs.append((int(r), int(s)))
     return pairs
     
 
