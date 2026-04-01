@@ -26,6 +26,11 @@ def shanks(p, n, alpha, beta):
     
     return None
 
+def decrypt(c1, c2, a, p):
+    s = pow(c1, a, p)
+    s_inv = pow(s, -1, p)
+    return (c2*s_inv) % p
+
 def read_ciphertexts(filename):
     pairs = []
     with open(filename, 'r') as f:
@@ -49,7 +54,10 @@ def main():
     print(f"{a}")
 
     ciphertexts = read_ciphertexts(filename)
-
+    message = ''
+    for (c1, c2) in ciphertexts:
+        m = decrypt(c1, c2, a, p)
+        message += decode(m)
 
 if __name__ == "__main__":
     main()
