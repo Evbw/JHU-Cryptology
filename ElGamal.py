@@ -31,6 +31,14 @@ def decrypt(c1, c2, a, p):
     s_inv = pow(s, -1, p)
     return (c2*s_inv) % p
 
+def decode(m):
+    c2 = m % 26
+    m //= 26
+    c1 = m % 26
+    m //= 26
+    c0 = m % 26
+    return chr(c0 + ord('A')) + chr(c1 + ord('A')) + chr(c2 + ord('A'))
+
 def read_ciphertexts(filename):
     pairs = []
     with open(filename, 'r') as f:
@@ -58,6 +66,9 @@ def main():
     for (c1, c2) in ciphertexts:
         m = decrypt(c1, c2, a, p)
         message += decode(m)
+
+    print("")
+    print(message)
 
 if __name__ == "__main__":
     main()
