@@ -42,7 +42,5 @@ def main():
     C = point_double(Pc, a, p)
     print(f"Doubling: {C}")
 
-    Hey
-
 if __name__ == "__main__":
     main()
