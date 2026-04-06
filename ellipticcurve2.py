@@ -13,8 +13,8 @@ def point_add(P, Q, a, p):
     y3 = (lam * (x1 - x3) - y1) % p
     return (x3, y3)
 
-def point_negate(Pb, p):
-    
+def point_negate(P, p):
+    return (P[0], (-P[1]) % p)
 
 def main():
     a = 1
@@ -29,6 +29,7 @@ def main():
     print(f"Addition: {A}")
     
     B = point_negate(Pb, p)
+    print(f"Negation: {B}")
 
 if __name__ == "__main__":
     main()
