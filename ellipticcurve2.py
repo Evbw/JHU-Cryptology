@@ -16,7 +16,13 @@ def point_add(P, Q, a, p):
 def point_negate(P, p):
     return (P[0], (-P[1]) % p)
 
-def point_multiply(P, p):
+def point_double(P, a, p):
+    x1 = P[0]
+    y1 = P[1]
+    lam = ((3 * x1 * x1 + a) * modinv(2 * y1, p)) % p
+    x3 = (lam * lam - 2 * x1) % p
+    y3 = (lam * (x1 - x3) - y1) % p
+    return (x3, y3)
 
 def main():
     a = 1
@@ -33,8 +39,8 @@ def main():
     B = point_negate(Pb, p)
     print(f"Negation: {B}")
 
-    C = point_multiply(Pc, p)
-    print(f"Multiplication: {C}")
+    C = point_double(Pc, a, p)
+    print(f"Doubling: {C}")
 
 if __name__ == "__main__":
     main()
