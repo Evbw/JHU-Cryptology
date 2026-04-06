@@ -9,6 +9,12 @@ def point_add(P, Q, a, p):
     x2 = Q[0]
     y2 = Q[1]
     lam = ((y2 - y1) * modinv(x2 - x1, p)) % p
+    x3 = (lam * lam - x1 - x2) % p
+    y3 = (lam * (x1 - x3) - y1) % p
+    return (x3, y3)
+
+def point_negate(Pb, p):
+    
 
 def main():
     a = 1
@@ -21,6 +27,8 @@ def main():
 
     A = point_add(Pa1, Pa2, a, p)
     print(f"Addition: {A}")
+    
+    B = point_negate(Pb, p)
 
 if __name__ == "__main__":
     main()
