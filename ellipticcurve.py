@@ -17,7 +17,7 @@ def main():
         return 0
     
     for x in range(1,p):
-        qr = {x*x} % p
+        qr = (x*x) % p
         quadres.add(qr)
 
     for quad in quadres:
@@ -34,10 +34,10 @@ def main():
         if pow(r,testexp,p) == 1:
             y1 = pow(r,rootexp,p)
             y2 = (-y1) % p
-            print('(', x, ',', y1, ')')
-            print('(', x, ',', y2, ')')
+            print('(',x,',', y1,')')
+            print('(',x,',',y2,')')
         if r == 0:
-            print('(', x, ',', '0)')
+            print('(',x,',','0)')
 
 if __name__ == "__main__":
     main()
