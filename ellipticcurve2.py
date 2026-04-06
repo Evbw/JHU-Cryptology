@@ -1,5 +1,8 @@
 import math
 
+def modinv(val, p):
+    return pow(val, p - 2, p)
+
 def point_add(P, Q, a, p):
     x1 = P[0]
     y1 = P[1]
