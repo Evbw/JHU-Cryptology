@@ -16,6 +16,8 @@ def point_add(P, Q, a, p):
 def point_negate(P, p):
     return (P[0], (-P[1]) % p)
 
+def point_multiply(P, p):
+
 def main():
     a = 1
     b = 26
@@ -30,6 +32,9 @@ def main():
     
     B = point_negate(Pb, p)
     print(f"Negation: {B}")
+
+    C = point_multiply(Pc, p)
+    print(f"Multiplication: {C}")
 
 if __name__ == "__main__":
     main()
