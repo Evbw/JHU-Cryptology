@@ -11,6 +11,7 @@ def main():
     b = 28
     p = 71
     quadres = set()
+    counter = 1
 
     if not isNonSingular(a, b, p):
         print("Invalid value")
@@ -21,7 +22,8 @@ def main():
         quadres.add(qr)
 
     for quad in quadres:
-        print(quad)
+        print(f"{counter}: {quad}")
+        counter+=1
 
     print( (p%4) == 3)
     testexp = (p-1)//2
@@ -34,10 +36,10 @@ def main():
         if pow(r,testexp,p) == 1:
             y1 = pow(r,rootexp,p)
             y2 = (-y1) % p
-            print('(',x,',', y1,')')
-            print('(',x,',',y2,')')
+            print(f"({x}, {y1})")
+            print(f"({x}, {y2})")
         if r == 0:
-            print('(',x,',','0)')
+            print(f"({x}, 0)")
 
 if __name__ == "__main__":
     main()
