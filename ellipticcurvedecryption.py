@@ -91,7 +91,7 @@ def main():
     message = ""
     for pt in plaintext:
         message += chr(ord('A') + pt - 1)
-        print(f"Message: {message}")
+    print(f"Message: {message}")
 
 if __name__ == "__main__":
     main()
