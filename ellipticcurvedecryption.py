@@ -24,8 +24,26 @@ def point_double(P, a, p):
     y3 = (lam * (x1 - x3) - y1) % p
     return (x3, y3)
 
-def main():
+def f(x, a, b, p):
+    return (x*x*x + a*x + b) % p
+
+def double_and_add(k, P, a, p):
     print()
+
+def main():
+    a = 193
+    b = 647
+    p = 4339
+    P = (719, 3538)
+    Q = (3509, 334)
+
+    #Part A: Find private key m
+    for m in range(1, 4339):
+        if double_and_add(m, P, a, p) == Q:
+            print(f"m = {m}")
+            break
+    
+    #Part B: Decrypt ciphertext
 
 if __name__ == "__main__":
     main()
