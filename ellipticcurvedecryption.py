@@ -42,6 +42,9 @@ def double_and_add(k, P, a, p):
         k //= 2
     return result
 
+def decrypt(C1, C2, m, a, b, p):
+    print()
+
 def main():
     a = 193
     b = 647
@@ -56,6 +59,16 @@ def main():
             break
     
     #Part B: Decrypt ciphertext
+    ciphertext = [((3103, 1), 1860), ((745, 1), 1308), ((2214, 0), 981),
+                  ((3210, 0), 3601), ((1222, 0), 3579), ((3643, 0), 2402),
+                  ((1449, 0), 1871), ((3450, 1), 584), ((556, 1), 3019),
+                  ((3945, 0), 148), ((468, 0), 4242), ((277, 0), 2557),
+                  ((1460, 0), 3434), ((711, 0), 1522), ((3034, 1), 3293),
+                  ((1565, 0), 848)] 
+
+    plaintext = []
+    for C1, C2 in ciphertext:
+        pt = decrypt(C1, C2, m, a, b, p)
 
 if __name__ == "__main__":
     main()
