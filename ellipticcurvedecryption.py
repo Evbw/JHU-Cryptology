@@ -42,8 +42,11 @@ def double_and_add(k, P, a, p):
         k //= 2
     return result
 
-def decrypt(C1, C2, m, a, b, p):
+def decompress(x, bit, a, b, p):
     print()
+
+def decrypt(C1, C2, m, a, b, p):
+    C1 = decompress(C1[0], C1[1], a, b, p)
 
 def main():
     a = 193
