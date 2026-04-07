@@ -46,7 +46,7 @@ def point_decompress(x, i, a, b, p):
     z = (x * x * x + a * x + b) % p
     if pow(z, (p - 1) // 2, p) !=1 and z != 0:
         return None 
-    y = pow(r, (p + 1) // 4, p)
+    y = pow(z, (p + 1) // 4, p)
     if y % 2 == i:
         return (x, y)
     else:
@@ -54,6 +54,9 @@ def point_decompress(x, i, a, b, p):
 
 def decrypt(C1, C2, m, a, b, p):
     C1 = point_decompress(C1[0], C1[1], a, b, p)
+    S = double_and_add(m, C1, a, p)
+    plaintext = (C2 * modinv(S[0], p)) % p
+    return plaintext
 
 def main():
     a = 193
@@ -69,16 +72,26 @@ def main():
             break
     
     #Part B: Decrypt ciphertext
-    ciphertext = [((3103, 1), 1860), ((745, 1), 1308), ((2214, 0), 981),
-                  ((3210, 0), 3601), ((1222, 0), 3579), ((3643, 0), 2402),
-                  ((1449, 0), 1871), ((3450, 1), 584), ((556, 1), 3019),
-                  ((3945, 0), 148), ((468, 0), 4242), ((277, 0), 2557),
-                  ((1460, 0), 3434), ((711, 0), 1522), ((3034, 1), 3293),
-                  ((1565, 0), 848)] 
+    ciphertext = [
+        ((3103, 1), 1860), ((745, 1), 1308), ((2214, 0), 981),
+        ((3210, 0), 3601), ((1222, 0), 3579), ((3643, 0), 2402),
+        ((1449, 0), 1871), ((3450, 1), 584), ((556, 1), 3019),
+        ((3945, 0), 148), ((468, 0), 4242), ((277, 0), 2557),
+        ((1460, 0), 3434), ((711, 0), 1522), ((3034, 1), 3293),
+        ((1565, 0), 848)
+    ] 
 
     plaintext = []
     for C1, C2 in ciphertext:
         pt = decrypt(C1, C2, m, a, b, p)
+        plaintext.append(pt)
+    print(f"Plaintext numbers: {plaintext}")
+
+    #Part C: convert numbers to letters
+    message = ""
+    for pt in plaintext:
+        message += chr(ord('A') + pt - 1)
+        print(f"Message: {message}")
 
 if __name__ == "__main__":
     main()
