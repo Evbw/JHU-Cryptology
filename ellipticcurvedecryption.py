@@ -42,11 +42,18 @@ def double_and_add(k, P, a, p):
         k //= 2
     return result
 
-def decompress(x, bit, a, b, p):
-    print()
+def point_decompress(x, i, a, b, p):
+    z = (x * x * x + a * x + b) % p
+    if pow(z, (p - 1) // 2, p) !=1 and z != 0:
+        return None 
+    y = pow(r, (p + 1) // 4, p)
+    if y % 2 == i:
+        return (x, y)
+    else:
+        return (x, p - y)
 
 def decrypt(C1, C2, m, a, b, p):
-    C1 = decompress(C1[0], C1[1], a, b, p)
+    C1 = point_decompress(C1[0], C1[1], a, b, p)
 
 def main():
     a = 193
