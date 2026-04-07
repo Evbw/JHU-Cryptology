@@ -28,7 +28,19 @@ def f(x, a, b, p):
     return (x*x*x + a*x + b) % p
 
 def double_and_add(k, P, a, p):
-    print()
+    result = None
+    current = P
+    while k > 0:
+        if k % 2 == 1:
+            if result is None:
+                result = current
+            elif result == current:
+                result = point_double(current, a, p)
+            else:
+                result = point_add(result, current, p)
+        current = point_double(current, a, p)
+        k //= 2
+    return result
 
 def main():
     a = 193
