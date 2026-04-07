@@ -3,7 +3,7 @@ import math
 def modinv(val, p):
     return pow(val, p - 2, p)
 
-def point_add(P, Q, a, p):
+def point_add(P, Q, p):
     x1 = P[0]
     y1 = P[1]
     x2 = Q[0]
@@ -33,7 +33,7 @@ def main():
     Pb = (11, 15)
     Pc = (4, 27)
 
-    A = point_add(Pa1, Pa2, a, p)
+    A = point_add(Pa1, Pa2, p)
     print(f"Addition: {A}")
     
     B = point_negate(Pb, p)
